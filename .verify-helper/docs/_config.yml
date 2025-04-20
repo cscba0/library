@@ -1,3 +1,2 @@
 exclude: ["all.hpp", "templates", "library/fastio"]
 title: cscba Library
-theme: moonwalk
