@@ -1,0 +1,8 @@
+#pragma once
+#include <templates/chmin_max.hpp>
+#include <templates/graph.hpp>
+#include <templates/grid.hpp>
+#include <templates/macro/all.hpp>
+#include <templates/pair.hpp>
+#include <templates/rep.hpp>
+#include <templates/vector.hpp>
