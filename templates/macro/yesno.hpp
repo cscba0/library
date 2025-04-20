@@ -1,5 +1,5 @@
 #pragma once
-#include <library/fastio/string/write.hpp>
+#include <fastio/string/write.hpp>
 
 #define Yes cout << "Yes" << "\n"
 #define No cout << "No" << "\n"
