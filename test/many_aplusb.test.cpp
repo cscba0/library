@@ -11,8 +11,6 @@
 #include <templates/rep.hpp>  // for rep
 #include <version>            // for std
 
-using namespace std;
-
 int main() {
     uint t;
     cin >> t;
