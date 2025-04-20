@@ -16,7 +16,7 @@ struct FASTIO {
                         opos(output_buffer) {
         fstat(0, &st);
         ipos = (char *)mmap(nullptr, st.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, 0, 0);
-        std::memset(ipos + st.st_size, ' ', 64);
+        std::memset(ipos + st.st_size, 0, 64);
     }
     ~FASTIO() noexcept { this->flush(); }
 
