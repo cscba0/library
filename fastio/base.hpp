@@ -9,14 +9,14 @@
 struct FASTIO {
     static constexpr int buffer_size = 1 << 20;
     char output_buffer[buffer_size];
-    char *ipos, *obegin, *oend, *opos;
+    char *ipos, *iend, *obegin, *oend, *opos;
     struct stat st;
     explicit FASTIO() : obegin(output_buffer),
                         oend(output_buffer + buffer_size),
                         opos(output_buffer) {
         fstat(0, &st);
         ipos = (char *)mmap(nullptr, st.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, 0, 0);
-        std::memset(ipos + st.st_size, 0, 64);
+        iend = ipos + st.st_size;
     }
     ~FASTIO() noexcept { this->flush(); }
 

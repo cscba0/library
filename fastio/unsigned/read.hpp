@@ -7,7 +7,7 @@ template <std::unsigned_integral T>
 inline FASTIO& operator>>(FASTIO& io, T& x) noexcept {
     io.seek();
     std::common_type_t<T, uint64_t> y = 0;
-    {
+    if (io.ipos + 8 <= io.iend) {
         uint64_t v;
         memcpy(&v, io.ipos, 8);
         if (!((v -= 0x3030303030303030) & 0x8080808080808080)) {
@@ -18,7 +18,7 @@ inline FASTIO& operator>>(FASTIO& io, T& x) noexcept {
             io.ipos += 8;
         }
     }
-    {
+    if (io.ipos + 8 <= io.iend) {
         uint64_t v;
         memcpy(&v, io.ipos, 8);
         if (!((v -= 0x3030303030303030) & 0x8080808080808080)) {
@@ -29,7 +29,7 @@ inline FASTIO& operator>>(FASTIO& io, T& x) noexcept {
             io.ipos += 8;
         }
     }
-    {
+    if (io.ipos + 4 <= io.iend) {
         uint32_t v;
         memcpy(&v, io.ipos, 4);
         if (!((v -= 0x30303030) & 0x80808080)) {
@@ -39,7 +39,7 @@ inline FASTIO& operator>>(FASTIO& io, T& x) noexcept {
             io.ipos += 4;
         }
     }
-    {
+    if (io.ipos + 2 <= io.iend) {
         uint16_t v;
         memcpy(&v, io.ipos, 2);
         if (!((v -= 0x3030) & 0x8080)) {
@@ -48,7 +48,7 @@ inline FASTIO& operator>>(FASTIO& io, T& x) noexcept {
             io.ipos += 2;
         }
     }
-    while (' ' < *io.ipos) {
+    while (io.ipos != io.iend && ' ' < *io.ipos) {
         y = y * 10 + *io.ipos++ - '0';
     }
     ++io.ipos;
