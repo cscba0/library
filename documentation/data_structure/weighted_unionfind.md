@@ -2,7 +2,7 @@
 title: WeightedUnionfind
 documentation_of: data_structure/weighted_unionfind.hpp
 ---
-`WeightedUnionfind<T>` は、要素を互いに素な集合に分割し、さらに同じ集合に属する要素間の相対的な重み（差分）を管理するデータ構造です。例えば、$b$ は $a$ より重みが $W$ だけ大きい、すなわち $b - a = W$ という関係を表現できます。
+集合内の要素間の重みの差を持ちながら、互いに素な集合を管理します。
 
 ## コンストラクタ
 
@@ -134,10 +134,3 @@ $0 \le a < n$
 ### 計算量
 
 $O(\alpha(N))$
-
-## テンプレートパラメータ
-## 計算量
-
-- コンストラクタ: $O(N)$
-- `merge`, `same`, `weight`, `leader`, `size`: アッカーマン関数の逆関数に比例する償却定数時間（ほぼ $O(\alpha(N))$）です。
-```
