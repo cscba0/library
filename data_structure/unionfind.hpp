@@ -37,7 +37,7 @@ struct Unionfind {
 
     bool undo() {
         bool flg = false;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; ++i) {
             if (v[h.top().first] != h.top().second) {
                 flg = true;
             }

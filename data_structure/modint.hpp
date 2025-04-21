@@ -1,46 +1,50 @@
 #pragma once
 #include <cstdint>
 
-template <int64_t Modulus>
-struct modint {
+template <int64_t Mod>
+struct ModInt {
     int64_t x;
-    constexpr modint(const int64_t x = 0) noexcept : x(x % Modulus) {}
-    constexpr modint operator+(const modint rhs) const noexcept {
-        return modint(*this) += rhs;
+    constexpr ModInt(const int64_t x = 0) noexcept : x(x % Mod) {}
+    constexpr ModInt operator+(const ModInt rhs) const noexcept {
+        return ModInt(*this) += rhs;
     }
-    constexpr modint operator-(const modint rhs) const noexcept {
-        return modint(*this) -= rhs;
+    constexpr ModInt operator-(const ModInt rhs) const noexcept {
+        return ModInt(*this) -= rhs;
     }
-    constexpr modint operator*(const modint rhs) const noexcept {
-        return modint(*this) *= rhs;
+    constexpr ModInt &operator-() noexcept {
+        x = -x + Mod;
+        return *this;
     }
-    constexpr modint operator/(const modint rhs) const noexcept {
-        return modint(*this) /= rhs;
+    constexpr ModInt operator*(const ModInt rhs) const noexcept {
+        return ModInt(*this) *= rhs;
     }
-    constexpr modint &operator+=(const modint rhs) noexcept {
+    constexpr ModInt operator/(const ModInt rhs) const noexcept {
+        return ModInt(*this) /= rhs;
+    }
+    constexpr ModInt &operator+=(const ModInt rhs) noexcept {
         x += rhs.x;
-        if (x >= Modulus) {
-            x -= Modulus;
+        if (x >= Mod) {
+            x -= Mod;
         }
         return *this;
     }
-    constexpr modint &operator-=(const modint rhs) noexcept {
+    constexpr ModInt &operator-=(const ModInt rhs) noexcept {
         if (x < rhs.x) {
-            x += Modulus;
+            x += Mod;
         }
         x -= rhs.x;
         return *this;
     }
-    constexpr modint &operator*=(const modint rhs) noexcept {
-        x = x * rhs.x % Modulus;
+    constexpr ModInt &operator*=(const ModInt rhs) noexcept {
+        x = x * rhs.x % Mod;
         return *this;
     }
-    constexpr modint &operator/=(modint rhs) noexcept {
-        *this *= rhs.pow(Modulus - 2);
+    constexpr ModInt &operator/=(ModInt rhs) noexcept {
+        *this *= rhs.pow(Mod - 2);
         return *this;
     }
-    constexpr modint pow(int64_t t) const noexcept {
-        modint a = *this, res = 1;
+    constexpr ModInt pow(int64_t t) const noexcept {
+        ModInt a = *this, res = 1;
         while (t) {
             if (t & 1) {
                 res *= a;
