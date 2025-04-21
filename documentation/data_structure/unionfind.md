@@ -2,7 +2,7 @@
 title: Unionfind
 documentation_of: data_structure/unionfind.hpp
 ---
-`Unionfind` は、要素を互いに素な集合に分割し、それらの集合に対する操作（併合、同じ集合に属するかの判定）を効率的に行うデータ構造です。この実装は、マージ操作を元に戻す `undo` 機能をサポートしています。
+互いに素な集合を管理します。
 
 # 使い方
 ## コンストラクタ
@@ -42,7 +42,7 @@ $0 \le b < n$
 
 ### 計算量
 
-アッカーマン関数の逆関数に比例する償却定数時間（ほぼ $O(\alpha(N))$）です。
+$O(\alpha(N))$
 ```cpp
 bool same(int a, int b)
 ```
