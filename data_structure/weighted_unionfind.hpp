@@ -3,14 +3,14 @@
 #include <stack>
 #include <vector>
 
-struct weighted_unionfind {
+struct WeightedUnionFind {
     int n;
     std::vector<int> v;
     std::vector<long long> w;
     std::stack<std::pair<int, int>> h;
 
-    weighted_unionfind() : n(0) {}
-    explicit weighted_unionfind(int n) : n(n), v(n, -1), w(n, 0) {}
+    WeightedUnionFind() : n(0) {}
+    explicit WeightedUnionFind(int n) : n(n), v(n, -1), w(n, 0) {}
 
     int merge(int a, int b, long long W) {
         auto [x, sx] = leader(a);

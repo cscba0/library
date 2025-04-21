@@ -16,7 +16,7 @@
 int main() {
     int n, q;
     cin >> n >> q;
-    weighted_unionfind uf(n);
+    WeightedUnionFind uf(n);
     rep(_, q) {
         uint T;
         cin >> T;
