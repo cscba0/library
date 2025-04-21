@@ -1,11 +1,10 @@
 #pragma once
-#include <istream>
-#include <ostream>
+#include <cstdint>
 
-template <long long Modulus>
+template <int64_t Modulus>
 struct modint {
-    long long x;
-    constexpr modint(const long long x = 0) noexcept : x(x % Modulus) {}
+    int64_t x;
+    constexpr modint(const int64_t x = 0) noexcept : x(x % Modulus) {}
     constexpr modint operator+(const modint rhs) const noexcept {
         return modint(*this) += rhs;
     }
@@ -40,7 +39,7 @@ struct modint {
         *this *= rhs.pow(Modulus - 2);
         return *this;
     }
-    constexpr modint pow(long long t) const noexcept {
+    constexpr modint pow(int64_t t) const noexcept {
         modint a = *this, res = 1;
         while (t) {
             if (t & 1) {
@@ -50,13 +49,5 @@ struct modint {
             t >>= 1;
         }
         return res;
-    }
-    friend std::ostream &operator<<(std::ostream &os, modint<Modulus> m) {
-        os << m.x;
-        return os;
-    }
-    friend std::istream &operator>>(std::istream &st, modint<Modulus> m) {
-        st >> m.x;
-        return st;
     }
 };
