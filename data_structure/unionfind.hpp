@@ -3,13 +3,13 @@
 #include <stack>
 #include <vector>
 
-struct UnionFind {
+struct Unionfind {
     int n;
     std::vector<int> v;
     std::stack<std::pair<int, int>> h;
 
-    UnionFind() : n(0) {}
-    explicit UnionFind(int n) : n(n), v(n, -1) {}
+    Unionfind() : n(0) {}
+    explicit Unionfind(int n) : n(n), v(n, -1) {}
 
     int merge(int a, int b) {
         int x = leader(a), y = leader(b);
