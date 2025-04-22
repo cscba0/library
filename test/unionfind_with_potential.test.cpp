@@ -1,18 +1,18 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/unionfind_with_potential"
 
-#include <data_structure/modint.hpp>              // for ModInt
 #include <data_structure/weighted_unionfind.hpp>  // for WeightedUnionfind
 #include <fastio/base.hpp>                        // for FASTIO, cout, cin
 #include <fastio/char/write.hpp>                  // for operator<<
 #include <fastio/modint/write.hpp>                // for operator<<
 #include <fastio/signed/read.hpp>                 // for operator>>
 #include <fastio/signed/write.hpp>                // for operator<<
+#include <math/modint.hpp>                        // for ModInt
 #include <templates/macro/abbrev/endl.hpp>        // for endl
 #include <templates/macro/abbrev/ll.hpp>          // for ll
 #include <templates/macro/mod.hpp>                // for MOD1
 #include <templates/qcfium.hpp>
-#include <templates/rep.hpp>                      // for rep
-#include <version>                                // for std
+#include <templates/rep.hpp>  // for rep
+#include <version>            // for std
 
 using namespace std;
 
@@ -20,7 +20,7 @@ int main() {
     int n, q;
     cin >> n >> q;
     WeightedUnionfind<ll> uf(n);
-    using mint = ModInt<MOD1>;
+    using mint = Modint<MOD1>;
     rep(_, q) {
         int t;
         cin >> t;
