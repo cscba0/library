@@ -1,3 +1,9 @@
-exclude: ["all.hpp", "data_structure/all.hpp", "string/all.hpp", "templates", "fastio/all.hpp"]
+exclude:
+  - "all.hpp"
+  - "data_structure/all.hpp"
+  - "string/all.hpp"
+  - "math/all.hpp"
+  - "templates"
+  - "fastio/all.hpp"
 title: cscba Library
 theme: jekyll-theme-cayman

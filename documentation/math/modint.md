@@ -1,6 +1,6 @@
 ---
-title: modint
-documentation_of: data_structure/modint.hpp
+title: Modint
+documentation_of: math/modint.hpp
 ---
 自動で剰余を取ります。
 ## 使い方
@@ -44,18 +44,18 @@ $O(1)$
 ### pow
 
 ```cpp
-constexpr ModInt pow(int64_t t) const noexcept
+constexpr ModInt pow(int64_t n) const noexcept
 ```
 
 #### 説明
 
-自身の `t` 乗を計算します。繰り返し二乗法を用いて効率的に計算します。
+自身の `n` 乗を計算します。繰り返し二乗法を用いて効率的に計算します。
 
-- `t`: 冪指数。
+- `n`: 冪指数。
 
 #### 制約
 
-非負整数である必要があります。
+$0 \leq n$
 
 #### 計算量
 
