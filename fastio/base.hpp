@@ -3,20 +3,22 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include <cstdlib>
 #include <cstring>
 #include <tuple>
 
 struct FASTIO {
     static constexpr int buffer_size = 1 << 20;
     char output_buffer[buffer_size];
-    char *ipos, *iend, *obegin, *oend, *opos;
-    struct stat st;
+    char *ipos, *obegin, *oend, *opos;
     explicit FASTIO() : obegin(output_buffer),
                         oend(output_buffer + buffer_size),
                         opos(output_buffer) {
+        struct stat st;
         fstat(0, &st);
-        ipos = (char *)mmap(nullptr, st.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, 0, 0);
-        iend = ipos + st.st_size;
+        ipos = (char *)malloc(st.st_size + 64);
+        memset(ipos + st.st_size, ' ', 64);
+        ipos = (char *)mmap(ipos, st.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, 0, 0);
     }
     ~FASTIO() noexcept { this->flush(); }
 
