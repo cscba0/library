@@ -12,7 +12,9 @@ struct Modint {
         return Modint(*this) -= rhs;
     }
     constexpr Modint &operator-() noexcept {
-        x = -x + Mod;
+        if(x != 0) {
+            x = -x + Mod;
+        }
         return *this;
     }
     constexpr Modint operator*(const Modint rhs) const noexcept {
