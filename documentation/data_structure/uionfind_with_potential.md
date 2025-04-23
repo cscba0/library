@@ -1,6 +1,6 @@
 ---
 title: WeightedUnionfind
-documentation_of: data_structure/weighted_unionfind.hpp
+documentation_of: data_structure/unionfind_with_potential.md
 ---
 集合内の要素間の重みの差を持ちながら、互いに素な集合を管理します。
 
