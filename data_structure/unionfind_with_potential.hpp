@@ -3,13 +3,13 @@
 #include <vector>
 
 template <typename T = int64_t>
-struct WeightedUnionfind {
+struct UnionfindWithPotential {
     int n;
     std::vector<int> v;
     std::vector<T> w;
 
-    WeightedUnionfind() : n(0) {}
-    explicit WeightedUnionfind(int n) : n(n), v(n, -1), w(n, 0) {}
+    UnionfindWithPotential() : n(0) {}
+    explicit UnionfindWithPotential(int n) : n(n), v(n, -1), w(n, 0) {}
 
     int merge(int a, int b, T W) {
         auto [x, sx] = leader(a);

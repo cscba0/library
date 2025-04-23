@@ -2,13 +2,13 @@
 
 #include <sys/types.h>  // for uint
 
-#include <data_structure/weighted_unionfind.hpp>  // for weighted_unionfind
-#include <fastio/base.hpp>                        // for FASTIO, cin, cout
-#include <fastio/char/write.hpp>                  // for operator<<
-#include <fastio/signed/read.hpp>                 // for operator>>
-#include <fastio/signed/write.hpp>                // for operator<<
-#include <fastio/unsigned/read.hpp>               // for operator>>
-#include <templates/macro/abbrev/endl.hpp>        // for endl
+#include <data_structure/unionfind_with_potential.hpp>  // for weighted_unionfind
+#include <fastio/base.hpp>                              // for FASTIO, cin, cout
+#include <fastio/char/write.hpp>                        // for operator<<
+#include <fastio/signed/read.hpp>                       // for operator>>
+#include <fastio/signed/write.hpp>                      // for operator<<
+#include <fastio/unsigned/read.hpp>                     // for operator>>
+#include <templates/macro/abbrev/endl.hpp>              // for endl
 #include <templates/qcfium.hpp>
 #include <templates/rep.hpp>  // for rep
 #include <version>            // for std
@@ -16,7 +16,7 @@
 int main() {
     int n, q;
     cin >> n >> q;
-    WeightedUnionfind uf(n);
+    UnionfindWithPotential uf(n);
     rep(_, q) {
         uint T;
         cin >> T;
