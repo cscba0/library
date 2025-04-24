@@ -1,4 +1,4 @@
 #pragma once
 #include <templates/macro/inf.hpp>
 
-#define RmQ ll, [](ll a, ll b) { return min(a, b); }, []() { return INF; }
+#define RmQ(T, E) T, [](T a, T b) { return min(a, b); }, []() -> T { return E; }

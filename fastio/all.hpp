@@ -8,6 +8,7 @@
 #include <fastio/int128/write.hpp>
 #include <fastio/modint/read.hpp>
 #include <fastio/modint/write.hpp>
+#include <fastio/pair/read.hpp>
 #include <fastio/signed/read.hpp>
 #include <fastio/signed/write.hpp>
 #include <fastio/string/read.hpp>
