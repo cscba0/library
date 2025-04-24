@@ -1,5 +1,5 @@
 ---
-title: WeightedUnionfind
+title: UnionfindWithPotential
 documentation_of: data_structure/unionfind_with_potential.hpp
 ---
 集合内の要素間の重みの差を持ちながら、互いに素な集合を管理します。
@@ -7,7 +7,7 @@ documentation_of: data_structure/unionfind_with_potential.hpp
 ## コンストラクタ
 
 ```cpp
-WeightedUnionfind(int n)
+UnionfindWithPotential(int n)
 ```
 
 ### 説明
