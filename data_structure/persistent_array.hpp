@@ -14,8 +14,7 @@ struct PersistentArray {
         node(T _v) : v(_v) {}
     };
     std::vector<nptr> root;
-    int w{1};
-    int mask = 0b1111;
+    int w{0};
     PersistentArray(int n) : PersistentArray(std::vector<T>(n, e())) {}
     PersistentArray(int n, T x) : PersistentArray(std::vector<T>(n, x)) {}
     PersistentArray(std::vector<T> v) : root(1, std::make_shared<node>(node{})) {
@@ -25,10 +24,8 @@ struct PersistentArray {
         }
         std::vector<nptr> c;
         c.emplace_back(root[0]);
-        uint siz = 1;
-        while (siz * 16 < v.size()) {
-            w *= 16;
-            mask = (mask << 4) | 0b1111;
+        while (1 << (w + 4) < v.size()) {
+            w += 4;
             std::vector<nptr> nxt;
             for (auto &p : c) {
                 for (int i = 0; i < 16; ++i) {
@@ -39,7 +36,7 @@ struct PersistentArray {
             std::swap(c, nxt);
         }
         {
-            w *= 16;
+            w += 4;
             uint sum = 0;
             for (auto &p : c) {
                 for (uint i = 0; i < 16; ++i) {
@@ -56,28 +53,30 @@ struct PersistentArray {
             t = static_cast<int>(root.size()) - 1;
         }
         root.emplace_back(std::make_shared<node>(*root[t]));
-        set(root.back(), p, v, w, mask);
+        set(root.back(), p, v, w);
         return static_cast<int>(root.size()) - 1;
     }
-    void set(nptr &ptr, int p, T v, int w, int mask) {
-        if (w == 1) {
+    void set(nptr &ptr, int p, T v, int w) {
+        if (w == 0) {
             ptr->v = v;
             return;
         }
-        ptr->c[p / (w >> 4)] = std::make_shared<node>(*(ptr->c[p / (w >> 4)]));
-        set(ptr->c[p / (w >> 4)], p & mask, v, w >> 4, mask >> 4);
+        w -= 4;
+        ptr->c[p >> w] = std::make_shared<node>(*(ptr->c[p >> w]));
+        set(ptr->c[p >> w], p & ((1 << w) - 1), v, w);
     }
 
     T get(int p, int t = -1) {
         if (t == -1) {
             t = static_cast<int>(root.size()) - 1;
         }
-        return get(root[t], p, w, mask);
+        return get(root[t], p, w);
     }
-    T get(const nptr &ptr, int p, int w, int mask) {
-        if (w == 1) {
+    T get(const nptr &ptr, int p, int w) {
+        if (w == 0) {
             return ptr->v;
         }
-        return get(ptr->c[p / (w >> 4)], p & mask, w >> 4, mask >> 4);
+        w -= 4;
+        return get(ptr->c[p >> w], p & ((1 << w) - 1), w);
     }
 };

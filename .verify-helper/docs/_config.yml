@@ -1,6 +1,7 @@
 exclude:
   - "all.hpp"
   - "data_structure/all.hpp"
+  - "misc/all.hpp"
   - "string/all.hpp"
   - "math/all.hpp"
   - "templates"

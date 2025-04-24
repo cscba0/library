@@ -11,7 +11,7 @@ struct PersistentUnionfind {
 
     int merge(int a, int b, int t = -1) {
         int x = leader(a, t), y = leader(b, t);
-        if (x == y) return x;
+        if (x == y) return static_cast<int>(v.root.size()) - 1;
         if (-v.get(x, t) < -v.get(y, t)) std::swap(x, y);
         t = v.set(x, v.get(x, t) + v.get(y, t), t);
         return v.set(y, x, t);
