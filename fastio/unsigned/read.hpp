@@ -16,17 +16,17 @@ inline FASTIO& operator>>(FASTIO& io, T& x) noexcept {
             v = (v * 10000 + (v >> 32)) & 0xffffffff;
             y = 100000000 * y + v;
             io.ipos += 8;
-        }
-    }
-    {
-        uint64_t v;
-        memcpy(&v, io.ipos, 8);
-        if (!((v -= 0x3030303030303030) & 0x8080808080808080)) {
-            v = (v * 10 + (v >> 8)) & 0xff00ff00ff00ff;
-            v = (v * 100 + (v >> 16)) & 0xffff0000ffff;
-            v = (v * 10000 + (v >> 32)) & 0xffffffff;
-            y = 100000000 * y + v;
-            io.ipos += 8;
+            {
+                uint64_t V;
+                memcpy(&V, io.ipos, 8);
+                if (!((V -= 0x3030303030303030) & 0x8080808080808080)) {
+                    V = (V * 10 + (V >> 8)) & 0xff00ff00ff00ff;
+                    V = (V * 100 + (V >> 16)) & 0xffff0000ffff;
+                    V = (V * 10000 + (V >> 32)) & 0xffffffff;
+                    y = 100000000 * y + V;
+                    io.ipos += 8;
+                }
+            }
         }
     }
     {
