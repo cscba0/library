@@ -18,7 +18,7 @@ struct FASTIO {
         fstat(0, &st);
         ipos = (char *)malloc(st.st_size + 64);
         memset(ipos + st.st_size, ' ', 64);
-        ipos = (char *)mmap(ipos, st.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, 0, 0);
+        ipos = (char *)mmap(ipos, st.st_size, PROT_READ, MAP_PRIVATE, 0, 0);
     }
     ~FASTIO() noexcept { this->flush(); }
 

@@ -3,55 +3,40 @@
 #include <cstring>
 #include <fastio/base.hpp>
 
+constexpr bool FastAllDigit(uint64_t x) {
+    return !(~x & 0x1010101010101010);
+}
+
+constexpr bool FastAllDigit(uint32_t x) {
+    return !(~x & 0x10101010);
+}
+
 template <std::unsigned_integral T>
 inline FASTIO& operator>>(FASTIO& io, T& x) noexcept {
     io.seek();
-    std::common_type_t<T, uint64_t> y = 0;
-    {
-        uint64_t v;
-        memcpy(&v, io.ipos, 8);
-        if (!((v -= 0x3030303030303030) & 0x8080808080808080)) {
-            v = (v * 10 + (v >> 8)) & 0xff00ff00ff00ff;
-            v = (v * 100 + (v >> 16)) & 0xffff0000ffff;
-            v = (v * 10000 + (v >> 32)) & 0xffffffff;
-            y = 100000000 * y + v;
-            io.ipos += 8;
-            {
-                uint64_t V;
-                memcpy(&V, io.ipos, 8);
-                if (!((V -= 0x3030303030303030) & 0x8080808080808080)) {
-                    V = (V * 10 + (V >> 8)) & 0xff00ff00ff00ff;
-                    V = (V * 100 + (V >> 16)) & 0xffff0000ffff;
-                    V = (V * 10000 + (V >> 32)) & 0xffffffff;
-                    y = 100000000 * y + V;
-                    io.ipos += 8;
-                }
-            }
+    uint64_t x_{};
+    union {
+        char c[16];
+        uint64_t d[2];
+    };
+    memcpy(c, io.ipos, 16);
+    uint64_t a = d[0], b = d[1];
+    if (FastAllDigit(a)) {
+        a ^= 0x3030303030303030;
+        a = (a * 10 + (a >> 8)) & 0x00ff00ff00ff00ff;
+        a = (a * 100 + (a >> 16)) & 0x0000ffff0000ffff;
+        a = (a * 10000 + (a >> 32)) & 0x00000000ffffffff;
+        x_ = a, io.ipos += 8;
+        if (FastAllDigit(b)) {
+            b ^= 0x3030303030303030;
+            b = (b * 10 + (b >> 8)) & 0x00ff00ff00ff00ff;
+            b = (b * 100 + (b >> 16)) & 0x0000ffff0000ffff;
+            b = (b * 10000 + (b >> 32)) & 0x00000000ffffffff;
+            x_ = a * 100000000 + b, io.ipos += 8;
         }
     }
-    {
-        uint32_t v;
-        memcpy(&v, io.ipos, 4);
-        if (!((v -= 0x30303030) & 0x80808080)) {
-            v = (v * 10 + (v >> 8)) & 0xff00ff;
-            v = (v * 100 + (v >> 16)) & 0xffff;
-            y = 10000 * y + v;
-            io.ipos += 4;
-        }
-    }
-    {
-        uint16_t v;
-        memcpy(&v, io.ipos, 2);
-        if (!((v -= 0x3030) & 0x8080)) {
-            v = (v * 10 + (v >> 8)) & 0xff;
-            y = 100 * y + v;
-            io.ipos += 2;
-        }
-    }
-    if (' ' < *io.ipos) {
-        y = y * 10 + *io.ipos++ - '0';
-    }
+    for (; *io.ipos > 47; ++io.ipos) x_ = x_ * 10 + *io.ipos - 48;
     ++io.ipos;
-    x = static_cast<T>(y);
+    x = static_cast<T>(x_);
     return io;
 }
