@@ -1,10 +1,10 @@
 #pragma once
-#include <library/data_structure/point.hpp>
+#include <data_structure/point.hpp>
 #include <vector>
 
 constexpr int DX[8] = {-1, 0, 1, 0, -1, 1, 1, -1};
 constexpr int DY[8] = {0, -1, 0, 1, -1, -1, 1, 1};
-constexpr bool GRIDMOVE(point<>& cur, int type, int h, int w, int& time, int top = 0, int left = 0) {
+constexpr bool GRIDMOVE(Point<>& cur, int type, int h, int w, int& time, int top = 0, int left = 0) {
     for (++time;; ++time) {
         if (time) {
             cur.y -= DY[time - 1];
@@ -20,19 +20,19 @@ constexpr bool GRIDMOVE(point<>& cur, int type, int h, int w, int& time, int top
 
 #define OVERLOAD_GRID(_1, _2, _3, _4, _5, name, ...) name
 #define GRID1(cur, nex) \
-    point nex = cur;    \
+    Point nex = cur;    \
     int GTIME = -1;     \
     while (GRIDMOVE(nex, 4, h, w, GTIME))
 #define GRID2(cur, nex, type) \
-    point nex = cur;          \
+    Point nex = cur;          \
     int GTIME = -1;           \
     while (GRIDMOVE(nex, type, h, w, GTIME))
 #define GRID3(cur, nex, type, h) \
-    point nex = cur;             \
+    Point nex = cur;             \
     int GTIME = -1;              \
     while (GRIDMOVE(nex, type, h, w, GTIME))
 #define GRID4(cur, nex, type, h, w) \
-    point nex = cur;                \
+    Point nex = cur;                \
     int GTIME = -1;                 \
     while (GRIDMOVE(nex, type, h, w, GTIME))
 #define GRID(...) OVERLOAD_GRID(__VA_ARGS__, GRID4, GRID3, GRID2, GRID1)(__VA_ARGS__)

@@ -4,11 +4,11 @@
 #include <vector>
 
 template <typename T>
-inline FASTIO& operator<<(FASTIO& io, std::vector<T>& v) noexcept {
-    for (size_t i = 0, size = v.size(); i < size; ++i) {
-        io << v[i] << " \n"[i + 1 == size];
+inline FASTIO& operator<<(FASTIO& os, const std::vector<T>& v) {
+    for (uint i = 0, siz = v.size(); i < siz; ++i) {
+        os << v[i] << (i + 1 == siz ? "" : " ");
     }
-    return io;
+    return os;
 }
 
 template <typename T>
