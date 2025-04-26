@@ -4,6 +4,7 @@
 #include <fastio/char/write.hpp>            // for operator<<
 #include <fastio/signed/write.hpp>          // for operator<<
 #include <fastio/string/read.hpp>           // for operator>>
+#include <fastio/string/write.hpp>          // for operator<<
 #include <fastio/vector/write.hpp>          // for operator<<
 #include <string/z_algorithm.hpp>           // for Zalgorithm
 #include <string>                           // for basic_string, string

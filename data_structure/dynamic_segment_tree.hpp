@@ -2,7 +2,7 @@
 #include <memory>
 
 template <typename T, auto op, auto e, uint64_t n = 1000000000000000001LL>
-struct DynamicSegtree {
+struct DynamicSegmentTree {
     struct node;
     using nptr = std::unique_ptr<node>;
     struct node {
@@ -15,7 +15,7 @@ struct DynamicSegtree {
         }
     };
     nptr root;
-    DynamicSegtree() : root(nullptr) {}
+    DynamicSegmentTree() : root(nullptr) {}
     void set(int64_t p, T v) {
         set(root, 0, n, p, v);
     }
