@@ -3,9 +3,9 @@
 
 template <typename T = int>
 struct Point {
-    T y, x;
-    inline constexpr Point() noexcept : y(0), x(0) {}
-    inline constexpr Point(T _y, T _x) noexcept : y(_y), x(_x) {}
+    T x, y;
+    inline constexpr Point() noexcept : x(0), y(0) {}
+    inline constexpr Point(T _x, T _y) noexcept : x(_x), y(_y) {}
 
     long double distance(const Point<T>& rhs) noexcept {
         return sqrtl(distancePow(*this, rhs));
@@ -16,5 +16,23 @@ struct Point {
 
     bool operator==(const Point& rhs) {
         return y == rhs.y && x == rhs.x;
+    }
+
+    Point& operator++() {
+        ++x;
+        ++y;
+        return *this;
+    }
+    Point& operator--() {
+        --x;
+        --y;
+        return *this;
+    }
+
+    auto operator<=>(const Point& rhs) const noexcept {
+        if (x == rhs.x) {
+            return y <=> rhs.y;
+        }
+        return x <=> rhs.x;
     }
 };

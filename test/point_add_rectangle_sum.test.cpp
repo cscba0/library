@@ -4,6 +4,7 @@
 #include <data_structure/segment_tree_2d.hpp>  // for SegmentTree2D
 #include <fastio/base.hpp>                     // for FASTIO, cin, cout
 #include <fastio/char/write.hpp>               // for operator<<
+#include <fastio/point/read.hpp>               // for operator>>
 #include <fastio/signed/read.hpp>              // for operator>>
 #include <fastio/signed/write.hpp>             // for operator<<
 #include <format>                              // for vector
@@ -24,7 +25,7 @@ int main() {
     vector<ll> w(n);
     rep(i, n) {
         Point<ll> P;
-        cin >> P.x >> P.y;
+        cin >> P;
         p.eb(P);
         cin >> w[i];
     }
@@ -35,14 +36,14 @@ int main() {
         if (T == 0) {
             cin >> t[i][0] >> t[i][1] >> t[i][2];
             t[i][3] = -1;
-            p.eb(Point{t[i][1], t[i][0]});
+            p.eb(Point{t[i][0], t[i][1]});
         } else {
             cin >> t[i][0] >> t[i][1] >> t[i][2] >> t[i][3];
         }
     }
     SegmentTree2D<RSQ(ll, 0), ll> seg(p);
     rep(i, n) {
-        seg.add(p[i].x, p[i].y, w[i]);
+        seg.add(p[i], w[i]);
     }
     rep(i, q) {
         if (t[i][3] == -1) {

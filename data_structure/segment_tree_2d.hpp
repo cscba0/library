@@ -10,14 +10,14 @@ struct SegmentTree2D {
     std::vector<S> X;
     std::vector<std::vector<S>> pos;
     explicit SegmentTree2D(std::vector<Point<S>> p) {
-        for (auto [_, _x] : p) {
+        for (auto [_x, _] : p) {
             X.emplace_back(_x);
         }
         std::sort(X.begin(), X.end());
         X.erase(std::unique(X.begin(), X.end()), X.end());
         n = InitialN(X.size());
         pos.assign(n * 2, {});
-        for (auto [_y, _x] : p) {
+        for (auto [_x, _y] : p) {
             _x = std::distance(X.begin(), std::lower_bound(X.begin(), X.end(), _x));
             _x += n;
             for (; _x; _x >>= 1) {
@@ -42,6 +42,10 @@ struct SegmentTree2D {
         return n;
     }
 
+    void set(Point<S> p, T v) {
+        set(p.x, p.y, v);
+    }
+
     void set(S x, S y, T v) {
         x = distance(X.begin(), lower_bound(X.begin(), X.end(), x));
         x += n;
@@ -63,6 +67,10 @@ struct SegmentTree2D {
                                   seg[(x << 1) + 1][distance(pos[(x << 1) + 1].begin(), right)]));
             }
         }
+    }
+
+    void add(Point<S> p, T v) {
+        add(p.x, p.y, v);
     }
 
     void add(S x, S y, T v) {
