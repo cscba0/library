@@ -1,4 +1,4 @@
-#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/all/DSL_2_B"
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B"
 
 #include <data_structure/dynamic_segment_tree.hpp>  // for DynamicSegmentTree
 #include <fastio/base.hpp>                          // for FASTIO, cin, cout
@@ -23,7 +23,7 @@ int main() {
         if (T) {
             cout << seg(x, y + 1) << endl;
         } else {
-            seg.set(x, y);
+            seg.add(x, y);
         }
     }
 }

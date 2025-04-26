@@ -16,6 +16,7 @@ struct DynamicSegmentTree {
     };
     nptr root;
     DynamicSegmentTree() : root(nullptr) {}
+
     void set(int64_t p, T v) {
         set(root, 0, n, p, v);
     }
@@ -39,6 +40,31 @@ struct DynamicSegmentTree {
         }
         ptr->update();
     }
+
+    void add(int64_t p, T v) {
+        add(root, 0, n, p, v);
+    }
+    void add(nptr& ptr, int64_t l, int64_t r, int64_t p, T v) {
+        if (!ptr) {
+            ptr = std::make_unique<node>(p, e() + v);
+            return;
+        }
+        if (ptr->p == p) {
+            ptr->v += v;
+            ptr->update();
+            return;
+        }
+        int64_t mid = (l + r) >> 1;
+        if (p < mid) {
+            if (ptr->p < p) std::swap(ptr->p, p), std::swap(ptr->v, v);
+            add(ptr->left, l, mid, p, v);
+        } else {
+            if (p < ptr->p) std::swap(ptr->p, p), std::swap(ptr->v, v);
+            add(ptr->right, mid, r, p, v);
+        }
+        ptr->update();
+    }
+
     T operator[](int64_t p) {
         return get(root, p, 0, n);
     }
@@ -52,6 +78,7 @@ struct DynamicSegmentTree {
             return get(ptr->right, p, mid, r);
         }
     }
+
     T operator()(int64_t L, int64_t R) {
         return prod(root, 0, n, L, R);
     }
