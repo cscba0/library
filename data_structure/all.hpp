@@ -1,5 +1,6 @@
 #pragma once
 #include <data_structure/dynamic_segment_tree.hpp>
+#include <data_structure/fraction.hpp>
 #include <data_structure/persistent_array.hpp>
 #include <data_structure/persistent_unionfind.hpp>
 #include <data_structure/point.hpp>
