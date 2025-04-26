@@ -2,8 +2,10 @@
 #include <fastio/base.hpp>
 #include <fastio/char/read.hpp>
 #include <fastio/char/write.hpp>
-#include <fastio/double/read.hpp>
-#include <fastio/double/write.hpp>
+#include <fastio/floating/precision.hpp>
+#include <fastio/floating/read.hpp>
+#include <fastio/floating/write.hpp>
+#include <fastio/fraction/write.hpp>
 #include <fastio/int128/read.hpp>
 #include <fastio/int128/write.hpp>
 #include <fastio/modint/read.hpp>
