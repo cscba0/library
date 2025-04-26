@@ -12,6 +12,7 @@
 #include <version>                           // for std
 
 using namespace std;
+#define ERROR 0.00001
 
 int main() {
     int a, b;
