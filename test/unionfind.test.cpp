@@ -15,7 +15,7 @@ using namespace std;
 int main() {
     int n, q;
     cin >> n >> q;
-    Unionfind uf(n);
+    UnionFind uf(n);
     rep(_, q) {
         int t, u, v;
         cin >> t >> u >> v;

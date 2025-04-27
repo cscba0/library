@@ -2,12 +2,12 @@
 #include <algorithm>
 #include <data_structure/persistent_array.hpp>
 
-struct PersistentUnionfind {
+struct PersistentUnionFind {
     int n;
     PersistentArray<int> v;
 
-    PersistentUnionfind() : n(0), v(0) {}
-    explicit PersistentUnionfind(int n) : n(n), v(n, -1) {}
+    PersistentUnionFind() : n(0), v(0) {}
+    explicit PersistentUnionFind(int n) : n(n), v(n, -1) {}
 
     int merge(int a, int b, int t = -1) {
         int x = leader(a, t), y = leader(b, t);

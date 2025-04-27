@@ -43,7 +43,7 @@ std::vector<T> rnd_vec(int n, T r) {
 
 inline std::vector<std::pair<int, int>> rnd_tree(int n) {
     std::vector<std::pair<int, int>> res;
-    Unionfind uf(n + 1);
+    UnionFind uf(n + 1);
     rep(_, n - 1) {
         int u, v;
         do {

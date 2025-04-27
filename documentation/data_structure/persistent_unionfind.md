@@ -1,5 +1,5 @@
 ---
-title: PersistentUnionfind
+title: Persistent Union Find<br>
 documentation_of: data_structure/persistent_unionfind.hpp
 ---
 更新前の状態を保持したまま集合の併合や判定ができる Union-Find です。各更新操作 (merge) は新しいバージョンの Union-Find を生成します。

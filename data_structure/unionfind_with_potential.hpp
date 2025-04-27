@@ -3,13 +3,13 @@
 #include <vector>
 
 template <typename T = int64_t>
-struct UnionfindWithPotential {
+struct UnionFindWithPotential {
     int n;
     std::vector<int> v;
     std::vector<T> w;
 
-    UnionfindWithPotential() : n(0) {}
-    explicit UnionfindWithPotential(int n) : n(n), v(n, -1), w(n, 0) {}
+    UnionFindWithPotential() : n(0) {}
+    explicit UnionFindWithPotential(int n) : n(n), v(n, -1), w(n, 0) {}
 
     int merge(int a, int b, T W) {
         auto [x, sx] = leader(a);

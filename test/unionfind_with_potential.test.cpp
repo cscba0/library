@@ -19,7 +19,7 @@ using namespace std;
 int main() {
     int n, q;
     cin >> n >> q;
-    UnionfindWithPotential<ll> uf(n);
+    UnionFindWithPotential<ll> uf(n);
     using mint = Modint<MOD1>;
     rep(_, q) {
         int t;

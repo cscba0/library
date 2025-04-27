@@ -1,6 +1,5 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/point_add_rectangle_sum"
 
-#include <data_structure/point.hpp>            // for Point
 #include <data_structure/segment_tree_2d.hpp>  // for SegmentTree2D
 #include <fastio/base.hpp>                     // for FASTIO, cin, cout
 #include <fastio/char/write.hpp>               // for operator<<
@@ -8,13 +7,14 @@
 #include <fastio/signed/read.hpp>              // for operator>>
 #include <fastio/signed/write.hpp>             // for operator<<
 #include <format>                              // for vector
+#include <math/point.hpp>                      // for Point
 #include <templates/macro/abbrev/eb.hpp>       // for eb
 #include <templates/macro/abbrev/endl.hpp>     // for endl
 #include <templates/macro/abbrev/ll.hpp>       // for ll
 #include <templates/macro/segtree/RSQ.hpp>     // for RSQ
 #include <templates/qcfium.hpp>
-#include <templates/rep.hpp>                   // for rep
-#include <vector>                              // for vector
+#include <templates/rep.hpp>  // for rep
+#include <vector>             // for vector
 
 using namespace std;
 

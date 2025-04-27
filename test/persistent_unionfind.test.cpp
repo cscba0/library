@@ -7,15 +7,15 @@
 #include <fastio/signed/write.hpp>                  // for operator<<
 #include <templates/macro/abbrev/endl.hpp>          // for endl
 #include <templates/qcfium.hpp>
-#include <templates/rep.hpp>                        // for rep
-#include <vector>                                   // for vector
+#include <templates/rep.hpp>  // for rep
+#include <vector>             // for vector
 
 using namespace std;
 
 int main() {
     int n, q;
     cin >> n >> q;
-    PersistentUnionfind uf(n);
+    PersistentUnionFind uf(n);
     vector<int> a(q);
     rep(i, q) {
         int t, x, u, v;

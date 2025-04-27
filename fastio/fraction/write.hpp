@@ -1,6 +1,6 @@
 #pragma once
-#include <data_structure/fraction.hpp>
 #include <fastio/floating/write.hpp>
+#include <math/fraction.hpp>
 
 template <typename T>
 inline FASTIO& operator<<(FASTIO& io, const Fraction<T>& x) noexcept {

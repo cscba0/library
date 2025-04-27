@@ -16,7 +16,7 @@
 int main() {
     int n, q;
     cin >> n >> q;
-    UnionfindWithPotential uf(n);
+    UnionFindWithPotential uf(n);
     rep(_, q) {
         uint T;
         cin >> T;

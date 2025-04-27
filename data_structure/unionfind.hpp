@@ -2,12 +2,12 @@
 #include <algorithm>
 #include <vector>
 
-struct Unionfind {
+struct UnionFind {
     int n;
     std::vector<int> v;
 
-    Unionfind() : n(0) {}
-    explicit Unionfind(int n) : n(n), v(n, -1) {}
+    UnionFind() : n(0) {}
+    explicit UnionFind(int n) : n(n), v(n, -1) {}
 
     int merge(int a, int b) {
         int x = leader(a), y = leader(b);

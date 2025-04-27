@@ -1,5 +1,5 @@
 ---
-title: Segment Tree 2D
+title: Segment Tree 2D<br>
 documentation_of: data_structure/segment_tree_2d.hpp
 ---
 2次元平面上の点に対する要素の更新や矩形領域に対する集約された値の取得を高速に行うことができるデータ構造です。座標圧縮を内部で行います。

@@ -1,6 +1,6 @@
 #pragma once
-#include <data_structure/point.hpp>
 #include <fastio/base.hpp>
+#include <math/point.hpp>
 
 template <typename T>
 inline FASTIO& operator>>(FASTIO& io, Point<T>& P) noexcept {

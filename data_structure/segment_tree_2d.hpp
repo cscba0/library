@@ -1,7 +1,7 @@
 #pragma once
 #include <algorithm>
-#include <data_structure/point.hpp>
 #include <data_structure/segment_tree.hpp>
+#include <math/point.hpp>
 
 template <typename T, auto op, auto e, typename S = int>
 struct SegmentTree2D {
