@@ -1,5 +1,5 @@
 ---
-title: Dynamic Segment Tree\n
+title: Dynamic Segment Tree         
 documentation_of: data_structure/dynamic_segment_tree.hpp
 ---
 広大な範囲に対する要素の更新や区間に対する集約された値の取得を、実際に存在する要素のみをノードとして持つことで効率的に行うことができるデータ構造です。

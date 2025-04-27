@@ -1,5 +1,5 @@
 ---
-title: Union Find<br>
+title: Union Find                   
 documentation_of: data_structure/unionfind.hpp
 ---
 互いに素な集合を管理します。

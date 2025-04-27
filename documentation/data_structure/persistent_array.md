@@ -1,5 +1,5 @@
 ---
-title: Persistent Array<br>
+title: Persistent Array             
 documentation_of: data_structure/persistent_array.hpp
 ---
 更新前の状態を保持したまま要素の更新ができる配列です。各更新操作は新しいバージョンの配列を生成します。
