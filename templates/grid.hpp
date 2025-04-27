@@ -1,5 +1,5 @@
 #pragma once
-#include <data_structure/point.hpp>
+#include <math/point.hpp>
 #include <vector>
 
 constexpr int DX[8] = {-1, 0, 1, 0, -1, 1, 1, -1};
