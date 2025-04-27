@@ -2,6 +2,7 @@
 #include <data_structure/unionfind.hpp>
 #include <random>
 #include <templates/rep.hpp>
+#include <vector>
 
 template <typename T>
 T rnd(T l, T r) {
@@ -13,6 +14,12 @@ T rnd(T l, T r) {
 template <typename T>
 T rnd(T r) {
     return rnd((T)1, r);
+}
+
+template <typename T>
+void rnd(std::vector<T>& v) {
+    std::mt19937 mt(std::random_device{}());
+    std::shuffle(v.begin(), v.end(), mt);
 }
 
 inline std::string rnd_str(int n = 1, char l = 'a', char r = 'z') {

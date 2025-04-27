@@ -1,5 +1,5 @@
 ---
-title: Segment Tree                 ?
+title: Segment Tree                 
 documentation_of: data_structure/segment_tree.hpp
 ---
 要素の更新や区間に対する集約された値の取得を高速に行うことができるデータ構造です。
