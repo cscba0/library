@@ -8,28 +8,24 @@ inline FASTIO& operator<<(FASTIO& io, __int128 x) noexcept {
         *io.opos++ = '-';
         x = -x;
     }
-    if (x / 1'0000'0000'0000'0000 != 0) {
-        if (x / 1'0000'0000'0000'0000 / 1'0000'0000'0000'0000 != 0) {
-            FastWrite(io, uint64_t(x / 1'0000'0000'0000'0000 / 1'0000'0000'0000'0000));
-            x %= __int128(1'0000'0000'0000'0000) * __int128(1'0000'0000'0000'0000);
-            FastWrite_(io, x / 10000 / 10000 / 10000 / 10000 / 10000 / 10000 / 10000 % 10000);
-            FastWrite_(io, x / 10000 / 10000 / 10000 / 10000 / 10000 / 10000 % 10000);
-            FastWrite_(io, x / 10000 / 10000 / 10000 / 10000 / 10000 % 10000);
-            FastWrite_(io, x / 10000 / 10000 / 10000 / 10000 % 10000);
-            FastWrite_(io, x / 10000 / 10000 / 10000 % 10000);
-            FastWrite_(io, x / 10000 / 10000 % 10000);
-            FastWrite_(io, x / 10000 % 10000);
-            FastWrite_(io, x % 10000);
-        } else {
-            FastWrite(io, uint64_t(x / 1'0000'0000'0000'0000));
-            x %= 1'0000'0000'0000'0000;
-            FastWrite_(io, x / 10000 / 10000 / 10000 % 10000);
-            FastWrite_(io, x / 10000 / 10000 % 10000);
-            FastWrite_(io, x / 10000 % 10000);
-            FastWrite_(io, x % 10000);
-        }
+    if (x < 1'0000'0000'0000'0000U) {
+        FastWrite(io, static_cast<uint64_t>(x));
+    } else if (x / 1'0000'0000'0000'0000U < 1'0000'0000'0000'0000U) {
+        FastWrite(io, static_cast<uint64_t>(x / 1'0000'0000'0000'0000U));
+        FastWrite_(io, static_cast<uint64_t>(x / 1'0000'0000'0000U % 1'0000));
+        FastWrite_(io, static_cast<uint64_t>(x / 1'0000'0000U % 1'0000));
+        FastWrite_(io, static_cast<uint64_t>(x / 1'0000U % 1'0000));
+        FastWrite_(io, static_cast<uint64_t>(x % 1'0000));
     } else {
-        FastWrite(io, uint64_t(x));
+        FastWrite(io, static_cast<uint64_t>(x / 1'0000'0000'0000'0000U / 1'0000'0000'0000'0000U));
+        FastWrite_(io, static_cast<uint64_t>(x / 1'0000'0000'0000'0000U / 1'0000'0000'0000 % 10000));
+        FastWrite_(io, static_cast<uint64_t>(x / 1'0000'0000'0000'0000U / 1'0000'0000 % 10000));
+        FastWrite_(io, static_cast<uint64_t>(x / 1'0000'0000'0000'0000U / 1'0000 % 10000));
+        FastWrite_(io, static_cast<uint64_t>(x / 1'0000'0000'0000'0000U % 1'0000));
+        FastWrite_(io, static_cast<uint64_t>(x / 1'0000'0000'0000U % 1'0000));
+        FastWrite_(io, static_cast<uint64_t>(x / 1'0000'0000U % 1'0000));
+        FastWrite_(io, static_cast<uint64_t>(x / 1'0000U % 1'0000));
+        FastWrite_(io, static_cast<uint64_t>(x % 1'0000));
     }
     return io;
 }

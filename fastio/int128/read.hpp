@@ -1,5 +1,4 @@
 #pragma once
-#include <bit>
 #include <cstdint>
 #include <fastio/base.hpp>
 
@@ -10,25 +9,44 @@ inline FASTIO& operator>>(FASTIO& io, __int128& x) noexcept {
         neg = true;
         ++io.ipos;
     }
-    x = 0;
+    __int128 y = 0;
     while (true) {
-        uint64_t cur = *reinterpret_cast<uint64_t*>(io.ipos);
-        uint8_t cnt = std::countr_zero((~cur >> 4) & 0x0101010101010101);
-        cur <<= 64 - cnt;
-        cur &= 0x0f0f0f0f0f0f0f0f;
-        cur = (cur * 10 + (cur >> 8)) & 0x00ff00ff00ff00ff;
-        cur = (cur * 100 + (cur >> 16)) & 0x0000ffff0000ffff;
-        cur = (cur * 10000 + (cur >> 32)) & 0x00000000ffffffff;
-        if (cnt == 64) {
-            x = x * 100000000 + cur;
+        uint64_t v;
+        memcpy(&v, io.ipos, 8);
+        if (v ^= 0x3030303030303030, !(v & 0xf0f0f0f0f0f0f0f0)) {
+            v = (v * 10 + (v >> 8)) & 0xff00ff00ff00ff;
+            v = (v * 100 + (v >> 16)) & 0xffff0000ffff;
+            v = (v * 10000 + (v >> 32)) & 0xffffffff;
+            y = 100000000 * y + v;
             io.ipos += 8;
         } else {
             break;
         }
     }
-    for (; '0' <= *io.ipos && *io.ipos <= '9'; ++io.ipos) {
-        x = x * 10 + *io.ipos - '0';
+    {
+        uint32_t v;
+        memcpy(&v, io.ipos, 4);
+        if (v ^= 0x30303030, !(v & 0xf0f0f0f0)) {
+            v = (v * 10 + (v >> 8)) & 0xff00ff;
+            v = (v * 100 + (v >> 16)) & 0xffff;
+            y = 10000 * y + v;
+            io.ipos += 4;
+        }
     }
+    {
+        uint16_t v;
+        memcpy(&v, io.ipos, 2);
+        if (v ^= 0x3030, !(v & 0xf0f0)) {
+            v = (v * 10 + (v >> 8)) & 0xff;
+            y = 100 * y + v;
+            io.ipos += 2;
+        }
+    }
+    if (' ' < *io.ipos) {
+        y = y * 10 + *io.ipos++ - '0';
+    }
+    ++io.ipos;
+    x = static_cast<__int128>(y);
     if (neg) {
         x = -x;
     }
