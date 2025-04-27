@@ -1,82 +1,119 @@
 #pragma once
 #include <memory>
+#include <stack>
 
-template <typename T, auto op, auto e, uint64_t n = 1000000000000000001LL>
+template <typename T, auto op, auto e, typename S = int64_t, S n = 1000000000000000001LL>
 struct DynamicSegmentTree {
     struct node;
     using nptr = std::unique_ptr<node>;
     struct node {
-        int64_t p;
+        S p;
         T v, prod;
         nptr left, right;
-        node(int64_t _p, T _v) : p(_p), v(_v), prod(_v), left(nullptr), right(nullptr) {}
+        node(S _p, T _v) : p(_p), v(_v), prod(_v), left(nullptr), right(nullptr) {}
         void update() {
             prod = op(op(left ? left->prod : e(), v), right ? right->prod : e());
         }
     };
-    nptr root;
-    DynamicSegmentTree() : root(nullptr) {}
+    nptr root{nullptr};
+    DynamicSegmentTree() {}
 
-    void set(int64_t p, T v) {
-        set(root, 0, n, p, v);
-    }
-    void set(nptr& ptr, int64_t l, int64_t r, int64_t p, T v) {
-        if (!ptr) {
-            ptr = std::make_unique<node>(p, v);
-            return;
+    void set(S p, T v) {
+        std::stack<nptr*> st;
+        nptr* ptr = &root;
+        S l = 0, r = n;
+        bool flg = true;
+        while (*ptr) {
+            st.push(ptr);
+            nptr& cur = *ptr;
+            S mid = (l + r) >> 1;
+            if (cur->p == p) {
+                cur->v = v;
+                flg = false;
+                break;
+            }
+            if (p < mid) {
+                if (cur->p < p) {
+                    std::swap(cur->p, p);
+                    std::swap(cur->v, v);
+                }
+                ptr = &cur->left;
+                r = mid;
+            } else {
+                if (p < cur->p) {
+                    std::swap(cur->p, p);
+                    std::swap(cur->v, v);
+                }
+                ptr = &cur->right;
+                l = mid;
+            }
         }
-        if (ptr->p == p) {
-            ptr->v = v;
-            ptr->update();
-            return;
+        if (flg) {
+            *ptr = std::make_unique<node>(p, v);
         }
-        int64_t mid = (l + r) >> 1;
-        if (p < mid) {
-            if (ptr->p < p) std::swap(ptr->p, p), std::swap(ptr->v, v);
-            set(ptr->left, l, mid, p, v);
-        } else {
-            if (p < ptr->p) std::swap(ptr->p, p), std::swap(ptr->v, v);
-            set(ptr->right, mid, r, p, v);
+        while (!st.empty()) {
+            st.top()->get()->update();
+            st.pop();
         }
-        ptr->update();
-    }
-
-    void add(int64_t p, T v) {
-        add(root, 0, n, p, v);
-    }
-    void add(nptr& ptr, int64_t l, int64_t r, int64_t p, T v) {
-        if (!ptr) {
-            ptr = std::make_unique<node>(p, e() + v);
-            return;
-        }
-        if (ptr->p == p) {
-            ptr->v += v;
-            ptr->update();
-            return;
-        }
-        int64_t mid = (l + r) >> 1;
-        if (p < mid) {
-            if (ptr->p < p) std::swap(ptr->p, p), std::swap(ptr->v, v);
-            add(ptr->left, l, mid, p, v);
-        } else {
-            if (p < ptr->p) std::swap(ptr->p, p), std::swap(ptr->v, v);
-            add(ptr->right, mid, r, p, v);
-        }
-        ptr->update();
     }
 
-    T operator[](int64_t p) {
-        return get(root, p, 0, n);
-    }
-    T get(const nptr& ptr, int64_t p, int64_t l, int64_t r) {
-        if (!ptr) return e();
-        if (ptr->p == p) return ptr->v;
-        int64_t mid = (l + r) >> 1;
-        if (p < mid) {
-            return get(ptr->left, p, l, mid);
-        } else {
-            return get(ptr->right, p, mid, r);
+    void add(S p, T v) {
+        std::stack<nptr*> st;
+        nptr* ptr = &root;
+        S l = 0, r = n;
+        bool flg = true;
+        while (*ptr) {
+            st.push(ptr);
+            nptr& cur = *ptr;
+            S mid = (l + r) >> 1;
+            if (cur->p == p) {
+                cur->v += v;
+                flg = false;
+                break;
+            }
+            if (p < mid) {
+                if (cur->p < p) {
+                    std::swap(cur->p, p);
+                    std::swap(cur->v, v);
+                }
+                ptr = &cur->left;
+                r = mid;
+            } else {
+                if (p < cur->p) {
+                    std::swap(cur->p, p);
+                    std::swap(cur->v, v);
+                }
+                ptr = &cur->right;
+                l = mid;
+            }
         }
+        if (flg) {
+            *ptr = std::make_unique<node>(p, v);
+        }
+        while (!st.empty()) {
+            st.top()->get()->update();
+            st.pop();
+        }
+    }
+
+    T operator[](S p) {
+        nptr* ptr = &root;
+        S l = 0, r = n;
+        while (*ptr) {
+            nptr& cur = *ptr;
+            if (cur->p == p) {
+                return cur->v;
+            }
+            S mid = (l + r) >> 1;
+            if (p < mid) {
+                ptr = &cur->left;
+                r = mid;
+            } else {
+                ptr = &cur->right;
+                l = mid;
+            }
+        }
+        return e();
     }
 
     T operator()(int64_t L, int64_t R) {
