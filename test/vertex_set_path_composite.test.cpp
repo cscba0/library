@@ -1,26 +1,26 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/vertex_set_path_composite"
 
-#include <algorithm>                           // for reverse
-#include <fastio/base.hpp>                     // for FASTIO, cin, cout
-#include <fastio/char/write.hpp>               // for operator<<
-#include <fastio/pair/read.hpp>                // for operator>>
-#include <fastio/signed/read.hpp>              // for operator>>
-#include <fastio/unsigned/read.hpp>            // for operator>>
-#include <fastio/unsigned/write.hpp>           // for operator<<
-#include <fastio/vector/read.hpp>              // for operator>>
-#include <format>                              // for vector
-#include <iterator>                            // for pair
-#include <templates/macro/abbrev/eb.hpp>       // for eb
-#include <templates/macro/abbrev/endl.hpp>     // for endl
-#include <templates/macro/abbrev/mp.hpp>       // for MP
-#include <templates/macro/abbrev/ull.hpp>      // for ull
-#include <templates/macro/mod.hpp>             // for MOD1
+#include <algorithm>                                          // for reverse
+#include <data_structure/tree/heavy_light_decomposition.hpp>  // for HeavyLightDecomposition
+#include <fastio/base.hpp>                                    // for FASTIO, cin, cout
+#include <fastio/char/write.hpp>                              // for operator<<
+#include <fastio/pair/read.hpp>                               // for operator>>
+#include <fastio/signed/read.hpp>                             // for operator>>
+#include <fastio/unsigned/read.hpp>                           // for operator>>
+#include <fastio/unsigned/write.hpp>                          // for operator<<
+#include <fastio/vector/read.hpp>                             // for operator>>
+#include <format>                                             // for vector
+#include <iterator>                                           // for pair
+#include <templates/macro/abbrev/eb.hpp>                      // for eb
+#include <templates/macro/abbrev/endl.hpp>                    // for endl
+#include <templates/macro/abbrev/mp.hpp>                      // for MP
+#include <templates/macro/abbrev/ull.hpp>                     // for ull
+#include <templates/macro/mod.hpp>                            // for MOD1
 #include <templates/qcfium.hpp>
-#include <templates/rep.hpp>                   // for rep
-#include <tree/heavy_light_decomposition.hpp>  // for HeavyLightDecomposition
-#include <type_traits>                         // for __decay_and_strip
-#include <utility>                             // for pair, make_pair
-#include <vector>                              // for vector
+#include <templates/rep.hpp>  // for rep
+#include <type_traits>        // for __decay_and_strip
+#include <utility>            // for pair, make_pair
+#include <vector>             // for vector
 
 using namespace std;
 

@@ -1,20 +1,20 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/vertex_add_path_sum"
 
-#include <algorithm>                           // for reverse
-#include <fastio/base.hpp>                     // for FASTIO, cin, cout
-#include <fastio/char/write.hpp>               // for operator<<
-#include <fastio/signed/read.hpp>              // for operator>>
-#include <fastio/signed/write.hpp>             // for operator<<
-#include <fastio/vector/read.hpp>              // for operator>>
-#include <format>                              // for vector
-#include <templates/macro/abbrev/eb.hpp>       // for eb
-#include <templates/macro/abbrev/endl.hpp>     // for endl
-#include <templates/macro/abbrev/ll.hpp>       // for ll
-#include <templates/macro/segtree/RSQ.hpp>     // for RSQ
+#include <algorithm>                                          // for reverse
+#include <data_structure/tree/heavy_light_decomposition.hpp>  // for HeavyLightDecomposition
+#include <fastio/base.hpp>                                    // for FASTIO, cin, cout
+#include <fastio/char/write.hpp>                              // for operator<<
+#include <fastio/signed/read.hpp>                             // for operator>>
+#include <fastio/signed/write.hpp>                            // for operator<<
+#include <fastio/vector/read.hpp>                             // for operator>>
+#include <format>                                             // for vector
+#include <templates/macro/abbrev/eb.hpp>                      // for eb
+#include <templates/macro/abbrev/endl.hpp>                    // for endl
+#include <templates/macro/abbrev/ll.hpp>                      // for ll
+#include <templates/macro/segtree/RSQ.hpp>                    // for RSQ
 #include <templates/qcfium.hpp>
-#include <templates/rep.hpp>                   // for rep
-#include <tree/heavy_light_decomposition.hpp>  // for HeavyLightDecomposition
-#include <vector>                              // for vector
+#include <templates/rep.hpp>  // for rep
+#include <vector>             // for vector
 
 using namespace std;
 

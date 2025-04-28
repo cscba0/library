@@ -6,6 +6,9 @@
 template <typename T, auto op, auto e>
 struct HeavyLightDecomposition {
     int n;
+    struct Range {
+        int l, r;
+    };
     std::vector<int> euler, dep, per, root, siz;
     std::vector<std::pair<int, int>> ran;
     SegmentTree<T, op, e> seg, rev;
@@ -77,9 +80,9 @@ struct HeavyLightDecomposition {
                 }
             }
         }
-        seg = SegmentTree<T, op, e>(vec);
+        seg = std::move(SegmentTree<T, op, e>(vec));
         reverse(vec.begin(), vec.end());
-        rev = SegmentTree<T, op, e>(vec);
+        rev = std::move(SegmentTree<T, op, e>(vec));
     }
 
     T operator[](int p) const {
