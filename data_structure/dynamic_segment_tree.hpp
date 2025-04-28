@@ -119,22 +119,26 @@ struct DynamicSegmentTree {
     T operator()(S L, S R) {
         if (!root) return e();
         T res = e();
-        std::stack<std::tuple<const nptr&, S, S>> st;
-        st.emplace(root, 0, n);
+        std::stack<std::tuple<const nptr&, S, S, bool>> st;
+        st.emplace(root, 0, n, true);
         while (!st.empty()) {
-            auto [ptr, l, r] = st.top();
+            auto [ptr, l, r, flg] = st.top();
             st.pop();
-            if (!ptr || r <= L || R <= l) continue;
-            if (L <= l && r <= R) {
-                res = op(res, ptr->prod);
-                continue;
-            }
-            S mid = (l + r) >> 1;
-            if (ptr->p >= L && ptr->p < R) {
+            if (flg) {
+                if (!ptr || r <= L || R <= l) continue;
+                if (L <= l && r <= R) {
+                    res = op(res, ptr->prod);
+                    continue;
+                }
+                S mid = (l + r) >> 1;
+                st.emplace(ptr->right, mid, r, true);
+                if (ptr->p >= L && ptr->p < R) {
+                    st.emplace(ptr, l, r, false);
+                }
+                st.emplace(ptr->left, l, mid, true);
+            } else {
                 res = op(res, ptr->v);
             }
-            st.emplace(ptr->right, mid, r);
-            st.emplace(ptr->left, l, mid);
         }
         return res;
     }
