@@ -1,4 +1,5 @@
 #pragma once
+#include <data_structure/dynamic_li_chao_tree.hpp>
 #include <data_structure/dynamic_segment_tree.hpp>
 #include <data_structure/lazy_segment_tree.hpp>
 #include <data_structure/persistent_array.hpp>
