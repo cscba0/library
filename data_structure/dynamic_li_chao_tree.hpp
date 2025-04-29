@@ -24,10 +24,10 @@ struct LiChaoTree {
             T mid = (l + r) >> 1;
             T L = a * l + b;
             T M = a * mid + b;
-            T R = a * r + b;
+            T R = a * (r - 1) + b;
             T cL = cur->get(l);
             T cM = cur->get(mid);
-            T cR = cur->get(r);
+            T cR = cur->get(r - 1);
             if (cL <= L && cR <= R) {
                 return;
             }
