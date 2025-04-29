@@ -6,9 +6,6 @@
 template <typename T, auto op, auto e>
 struct HeavyLightDecomposition {
     int n;
-    struct Range {
-        int l, r;
-    };
     std::vector<int> euler, dep, per, root, siz;
     std::vector<std::pair<int, int>> ran;
     SegmentTree<T, op, e> seg, rev;
@@ -133,5 +130,9 @@ struct HeavyLightDecomposition {
             std::min(ran[u].first, ran[v].first),
             std::max(ran[u].first, ran[v].first)));
         return res;
+    }
+
+    T part(int u) {
+        return seg(ran[u].first, ran[u].second + 1);
     }
 };
