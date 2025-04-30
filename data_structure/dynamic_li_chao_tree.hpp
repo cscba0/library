@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <stack>
 
 template <typename T, T Left, T Right, auto e>
 struct DynamicLiChaoTree {
@@ -16,9 +17,10 @@ struct DynamicLiChaoTree {
     nptr root{nullptr};
     DynamicLiChaoTree() {}
 
-    void add(T a, T b) {
-        nptr* ptr = &root;
-        T l{Left}, r{Right};
+    void add(T a, T b, nptr* ptr = nullptr, T l = Left, T r = Right) {
+        if (!ptr) {
+            ptr = &root;
+        }
         while (*ptr) {
             nptr& cur = *ptr;
             T mid = (l + r) >> 1;
@@ -66,6 +68,26 @@ struct DynamicLiChaoTree {
             }
         } else {
             *ptr = std::make_unique<node>(a, b);
+        }
+    }
+
+    void add(T a, T b, T L, T R) {
+        std::stack<std::tuple<nptr*, T, T>> st;
+        st.emplace(&root, Left, Right);
+        while (!st.empty()) {
+            auto [ptr, l, r] = st.top();
+            st.pop();
+            if (r <= L || R <= l) continue;
+            if (L <= l && r <= R) {
+                add(a, b, ptr, l, r);
+                continue;
+            }
+            if (!*ptr) {
+                *ptr = std::make_unique<node>(T{0}, e());
+            }
+            T mid = (l + r) >> 1;
+            st.emplace(&((*ptr)->left), l, mid);
+            st.emplace(&((*ptr)->right), mid, r);
         }
     }
 
