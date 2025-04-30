@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/line_add_get_min"
 
-#include <data_structure/dynamic_li_chao_tree.hpp>  // for LiChaoTree
+#include <data_structure/dynamic_li_chao_tree.hpp>  // for DynamicLiChaoTree
 #include <fastio/base.hpp>                          // for cin, FASTIO, cout
 #include <fastio/char/write.hpp>                    // for operator<<
 #include <fastio/signed/read.hpp>                   // for operator>>
@@ -17,7 +17,7 @@ using namespace std;
 int main() {
     int n, q;
     cin >> n >> q;
-    LiChaoTree<ll, -1000000001, 1000000001, []() { return INF; }> tree;
+    DynamicLiChaoTree<ll, -1000000001, 1000000001, []() { return INF; }> tree;
     rep(_, n) {
         ll a, b;
         cin >> a >> b;

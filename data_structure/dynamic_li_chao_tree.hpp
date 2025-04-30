@@ -2,7 +2,7 @@
 #include <memory>
 
 template <typename T, T Left, T Right, auto e>
-struct LiChaoTree {
+struct DynamicLiChaoTree {
     struct node;
     using nptr = std::unique_ptr<node>;
     struct node {
@@ -14,7 +14,7 @@ struct LiChaoTree {
         }
     };
     nptr root{nullptr};
-    LiChaoTree() {}
+    DynamicLiChaoTree() {}
 
     void add(T a, T b) {
         nptr* ptr = &root;
