@@ -91,7 +91,7 @@ struct DynamicLiChaoTree {
         }
     }
 
-    T operator[](T x) {
+    T operator()(T x) {
         T res{e()};
         nptr* ptr = &root;
         T l{Left}, r{Right};
