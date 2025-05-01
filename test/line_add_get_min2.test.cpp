@@ -52,7 +52,7 @@ int main() {
     }
     rep(i, q) {
         if (t[i].b == INF) {
-            cout << tree[t[i].a] << endl;
+            cout << tree(t[i].a) << endl;
         } else {
             tree.add(t[i].a, t[i].b);
         }
