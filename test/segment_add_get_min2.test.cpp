@@ -54,7 +54,7 @@ int main() {
     }
     rep(i, q) {
         if (t[i].b == INF) {
-            ll ans = tree(t[i].a]);
+            ll ans = tree(t[i].a);
             if (ans == INF) {
                 cout << "INFINITY" << endl;
             } else {
