@@ -33,7 +33,7 @@ int main() {
         } else {
             ll p;
             cin >> p;
-            cout << tree[p] << endl;
+            cout << tree(p) << endl;
         }
     }
 }
