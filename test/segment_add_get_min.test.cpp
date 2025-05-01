@@ -34,7 +34,7 @@ int main() {
         } else {
             ll p;
             cin >> p;
-            auto ans = seg[p];
+            auto ans = seg(p);
             if (ans == INF) {
                 cout << "INFINITY" << endl;
             } else {
