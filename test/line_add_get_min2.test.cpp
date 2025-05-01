@@ -11,6 +11,7 @@
 #include <fastio/unsigned/read.hpp>         // for operator>>
 #include <templates/macro/abbrev/eb.hpp>    // for eb
 #include <templates/macro/abbrev/endl.hpp>  // for endl
+#include <templates/macro/abbrev/ext.hpp>   // for ext
 #include <templates/macro/abbrev/ll.hpp>    // for ll
 #include <templates/macro/inf.hpp>          // for INF
 #include <templates/qcfium.hpp>
@@ -43,6 +44,9 @@ int main() {
         }
     }
     LiChaoTree<ll, []() { return INF; }> tree(x);
+    if (x.empty()) {
+        ext;
+    }
     rep(i, n) {
         tree.add(a[i].a, a[i].b);
     }
