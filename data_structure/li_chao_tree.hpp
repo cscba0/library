@@ -5,6 +5,7 @@
 template <typename T, auto e>
 struct LiChaoTree {
     int n;
+    int siz;
     std::vector<T> cmp;
     struct node {
         T a, b;
@@ -19,13 +20,14 @@ struct LiChaoTree {
         sort(cmp.begin(), cmp.end());
         cmp.erase(unique(cmp.begin(), cmp.end()), cmp.end());
         n = cmp.size();
-        v = std::vector<node>(((1 << (std::__lg(std::max(1, n)) + 1))) << 1, node{0, e()});
+        siz = (1 << (std::__lg(std::max(1, n)) + 1)) << 1;
+        v = std::vector<node>(siz, node{0, e()});
     }
     void add(T a, T b, int c = 1, T l = 0, T r = -1) {
         if (r == -1) {
             r = n;
         }
-        while (c < (n << 1)) {
+        while (c < siz) {
             if (r <= l + 1) break;
             if (b == e()) return;
             node& cur = v[c];
@@ -66,7 +68,7 @@ struct LiChaoTree {
                 }
             }
         }
-        if (c < (n << 1)) {
+        if (c < siz) {
             if (a * cmp[l] + b < v[c].get(cmp[l])) {
                 std::swap(a, v[c].a);
                 std::swap(b, v[c].b);
@@ -80,8 +82,9 @@ struct LiChaoTree {
         while (!st.empty()) {
             auto [c, l, r] = st.top();
             st.pop();
-            if (r <= L || R <= l) continue;
-            if (L <= l && r <= R) {
+            if (siz <= c) continue;
+            if (cmp[r - 1] < L || R <= cmp[l]) continue;
+            if (L <= cmp[l] && cmp[r - 1] < R) {
                 add(a, b, c, l, r);
                 continue;
             }
@@ -95,7 +98,7 @@ struct LiChaoTree {
         int c = 1;
         T l = 0, r = n;
         T res{e()};
-        while (c < (n << 1)) {
+        while (c < siz) {
             res = std::min(res, v[c].get(x));
             T mid = (l + r) >> 1;
             if (x < cmp[mid]) {
