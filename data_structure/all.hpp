@@ -3,6 +3,7 @@
 #include <data_structure/dynamic_segment_tree.hpp>
 #include <data_structure/dynamic_segment_tree_2d.hpp>
 #include <data_structure/lazy_segment_tree.hpp>
+#include <data_structure/li_chao_tree.hpp>
 #include <data_structure/persistent_array.hpp>
 #include <data_structure/persistent_unionfind.hpp>
 #include <data_structure/segment_tree.hpp>
