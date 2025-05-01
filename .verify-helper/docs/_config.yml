@@ -8,5 +8,6 @@ exclude:
   - "math/all.hpp"
   - "templates"
   - "fastio/all.hpp"
+  - "fastio"
 title: cscba Library
 theme: jekyll-theme-cayman
