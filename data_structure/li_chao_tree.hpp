@@ -94,7 +94,7 @@ struct LiChaoTree {
         }
     }
 
-    T operator[](T x) {
+    T operator()(T x) {
         int c = 1;
         T l = 0, r = n;
         T res{e()};
