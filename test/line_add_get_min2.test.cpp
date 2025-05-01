@@ -1,17 +1,21 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/line_add_get_min"
 
-#include <data_structure/li_chao_tree.hpp>  // for DynamicLiChaoTree
+#include <sys/types.h>  // for uint
+
+#include <algorithm>                        // for sort, unique
+#include <data_structure/li_chao_tree.hpp>  // for LiChaoTree
 #include <fastio/base.hpp>                  // for cin, FASTIO, cout
 #include <fastio/char/write.hpp>            // for operator<<
 #include <fastio/signed/read.hpp>           // for operator>>
 #include <fastio/signed/write.hpp>          // for operator<<
+#include <fastio/unsigned/read.hpp>         // for operator>>
+#include <templates/macro/abbrev/eb.hpp>    // for eb
 #include <templates/macro/abbrev/endl.hpp>  // for endl
 #include <templates/macro/abbrev/ll.hpp>    // for ll
 #include <templates/macro/inf.hpp>          // for INF
 #include <templates/qcfium.hpp>
 #include <templates/rep.hpp>  // for rep
-#include <vector>
-#include <version>  // for std
+#include <vector>             // for vector
 
 using namespace std;
 
@@ -35,7 +39,7 @@ int main() {
         } else {
             cin >> t[i].a;
             t[i].b = INF;
-            x.emplace_back(t[i].a);
+            x.eb(t[i].a);
         }
     }
     LiChaoTree<ll, []() { return INF; }> tree(x);

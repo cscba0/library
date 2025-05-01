@@ -1,4 +1,5 @@
 #pragma once
+#include <stack>
 #include <vector>
 
 template <typename T, auto e>
@@ -20,9 +21,10 @@ struct LiChaoTree {
         n = cmp.size();
         v = std::vector<node>(((1 << (std::__lg(std::max(1, n)) + 1))) << 1, node{0, e()});
     }
-    void add(T a, T b) {
-        int c = 1;
-        T l = 0, r = n;
+    void add(T a, T b, int c = 1, T l = 0, T r = -1) {
+        if (r == -1) {
+            r = n;
+        }
         while (c < (n << 1)) {
             if (r <= l + 1) break;
             if (b == e()) return;
@@ -69,6 +71,23 @@ struct LiChaoTree {
                 std::swap(a, v[c].a);
                 std::swap(b, v[c].b);
             }
+        }
+    }
+
+    void add(T a, T b, T L, T R) {
+        std::stack<std::tuple<int, T, T>> st;
+        st.emplace(1, 0, n);
+        while (!st.empty()) {
+            auto [c, l, r] = st.top();
+            st.pop();
+            if (r <= L || R <= l) continue;
+            if (L <= l && r <= R) {
+                add(a, b, c, l, r);
+                continue;
+            }
+            T mid = (l + r) >> 1;
+            st.emplace((c << 1), l, mid);
+            st.emplace((c << 1) | 1, mid, r);
         }
     }
 
