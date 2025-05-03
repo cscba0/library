@@ -7,3 +7,4 @@
 #include <misc/all.hpp>
 #include <string/all.hpp>
 #include <templates/all.hpp>
+#include <templates/qcfium.hpp>  // IWYU pragma: keep

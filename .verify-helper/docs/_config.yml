@@ -1,5 +1,6 @@
 exclude:
   - "all.hpp"
+  - "experimental.hpp"
   - "data_structure/all.hpp"
   - "data_structure/tree/all.hpp"
   - "data_structure/wavelet_matrix/all.hpp"
