@@ -9,7 +9,7 @@
 #include <string/z_algorithm.hpp>           // for Zalgorithm
 #include <string>                           // for basic_string, string
 #include <templates/macro/abbrev/endl.hpp>  // for endl
-#include <templates/qcfium.hpp>
+#include <templates/template.hpp>
 
 using namespace std;
 

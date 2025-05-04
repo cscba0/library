@@ -10,8 +10,8 @@
 #include <templates/macro/abbrev/endl.hpp>
 #include <templates/macro/abbrev/ll.hpp>
 #include <templates/macro/mod.hpp>
-#include <templates/qcfium.hpp>
 #include <templates/rep.hpp>
+#include <templates/template.hpp>
 #include <utility>
 using namespace std;
 

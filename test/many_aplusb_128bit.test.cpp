@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/many_aplusb_128bit"
 
-#include <sys/types.h>                      // for uint
+#include <sys/types.h>  // for uint
+
 #include <fastio/base.hpp>                  // for FASTIO, cin, cout
 #include <fastio/char/write.hpp>            // for operator<<
 #include <fastio/int128/read.hpp>           // for operator>>
@@ -8,9 +9,9 @@
 #include <fastio/unsigned/read.hpp>         // for operator>>
 #include <templates/macro/abbrev/endl.hpp>  // for endl
 #include <templates/macro/abbrev/lint.hpp>  // for lint
-#include <templates/qcfium.hpp>
 #include <templates/rep.hpp>                // for rep
-#include <version>                          // for std
+#include <templates/template.hpp>
+#include <version>  // for std
 
 using namespace std;
 

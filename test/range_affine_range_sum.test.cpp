@@ -10,10 +10,10 @@
 #include <templates/macro/abbrev/endl.hpp>       // for endl
 #include <templates/macro/abbrev/ll.hpp>         // for ll
 #include <templates/macro/mod.hpp>               // for MOD1
-#include <templates/qcfium.hpp>
 #include <templates/rep.hpp>                     // for rep
-#include <utility>                               // for pair
-#include <vector>                                // for vector
+#include <templates/template.hpp>
+#include <utility>  // for pair
+#include <vector>   // for vector
 
 using namespace std;
 

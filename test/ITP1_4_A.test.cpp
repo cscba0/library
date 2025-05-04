@@ -8,7 +8,7 @@
 #include <math/fraction.hpp>                 // for Fraction
 #include <templates/macro/abbrev/endl.hpp>   // for endl
 #include <templates/macro/abbrev/space.hpp>  // for space
-#include <templates/qcfium.hpp>
+#include <templates/template.hpp>
 #include <version>  // for std
 
 using namespace std;

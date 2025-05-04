@@ -10,9 +10,9 @@
 #include <templates/macro/abbrev/endl.hpp>              // for endl
 #include <templates/macro/abbrev/ll.hpp>                // for ll
 #include <templates/macro/mod.hpp>                      // for MOD1
-#include <templates/qcfium.hpp>
-#include <templates/rep.hpp>  // for rep
-#include <version>            // for std
+#include <templates/rep.hpp>                            // for rep
+#include <templates/template.hpp>
+#include <version>  // for std
 
 using namespace std;
 

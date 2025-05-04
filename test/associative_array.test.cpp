@@ -8,9 +8,9 @@
 #include <fastio/unsigned/write.hpp>        // for operator<<
 #include <templates/macro/abbrev/endl.hpp>  // for endl
 #include <templates/macro/abbrev/ull.hpp>   // for ull
-#include <templates/qcfium.hpp>
 #include <templates/rep.hpp>                // for rep
-#include <version>                          // for std
+#include <templates/template.hpp>
+#include <version>  // for std
 using namespace std;
 
 int main() {

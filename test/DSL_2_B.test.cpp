@@ -7,9 +7,9 @@
 #include <fastio/signed/write.hpp>                  // for operator<<
 #include <templates/macro/abbrev/endl.hpp>          // for endl
 #include <templates/macro/segtree/RSQ.hpp>          // for RSQ
-#include <templates/qcfium.hpp>
 #include <templates/rep.hpp>                        // for rep
-#include <version>                                  // for std
+#include <templates/template.hpp>
+#include <version>  // for std
 
 using namespace std;
 

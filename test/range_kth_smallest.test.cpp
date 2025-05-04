@@ -9,9 +9,9 @@
 #include <fastio/signed/write.hpp>                  // for operator<<
 #include <fastio/vector/read.hpp>                   // for operator>>
 #include <templates/macro/abbrev/endl.hpp>          // for endl
-#include <templates/qcfium.hpp>
 #include <templates/rep.hpp>                        // for rep
-#include <vector>                                   // for vector
+#include <templates/template.hpp>
+#include <vector>  // for vector
 
 using namespace std;
 

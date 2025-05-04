@@ -10,8 +10,8 @@
 #include <templates/macro/abbrev/endl.hpp>          // for endl
 #include <templates/macro/abbrev/ll.hpp>            // for ll
 #include <templates/macro/inf.hpp>                  // for INF
-#include <templates/qcfium.hpp>
 #include <templates/rep.hpp>                        // for rep
+#include <templates/template.hpp>
 
 using namespace std;
 

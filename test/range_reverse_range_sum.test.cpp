@@ -9,9 +9,9 @@
 #include <templates/macro/abbrev/endl.hpp>                   // for endl
 #include <templates/macro/abbrev/ll.hpp>                     // for ll
 #include <templates/macro/segtree/RSQ.hpp>                   // for RSQ
-#include <templates/qcfium.hpp>
 #include <templates/rep.hpp>                                 // for rep
-#include <vector>                                            // for vector
+#include <templates/template.hpp>
+#include <vector>  // for vector
 using namespace std;
 
 int main() {

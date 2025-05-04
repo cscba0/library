@@ -14,9 +14,9 @@
 #include <templates/macro/abbrev/ext.hpp>   // for ext
 #include <templates/macro/abbrev/ll.hpp>    // for ll
 #include <templates/macro/inf.hpp>          // for INF
-#include <templates/qcfium.hpp>
-#include <templates/rep.hpp>  // for rep
-#include <vector>             // for vector
+#include <templates/rep.hpp>                // for rep
+#include <templates/template.hpp>
+#include <vector>  // for vector
 
 using namespace std;
 

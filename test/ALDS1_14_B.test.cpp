@@ -10,10 +10,10 @@
 #include <string>                           // for basic_string, string
 #include <templates/macro/abbrev/endl.hpp>  // for endl
 #include <templates/macro/segtree/RSQ.hpp>  // for RSQ
-#include <templates/qcfium.hpp>
 #include <templates/rep.hpp>                // for rep
-#include <templates/vector_output.hpp>      // for operator+
-#include <vector>                           // for vector
+#include <templates/template.hpp>
+#include <templates/vector_output.hpp>  // for operator+
+#include <vector>                       // for vector
 
 using namespace std;
 

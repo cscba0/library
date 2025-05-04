@@ -8,9 +8,9 @@
 #include <templates/macro/abbrev/endl.hpp>          // for endl
 #include <templates/macro/abbrev/ll.hpp>            // for ll
 #include <templates/macro/inf.hpp>                  // for INF
-#include <templates/qcfium.hpp>
 #include <templates/rep.hpp>                        // for rep
-#include <version>                                  // for std
+#include <templates/template.hpp>
+#include <version>  // for std
 
 using namespace std;
 
