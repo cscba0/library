@@ -11,5 +11,4 @@ exclude:
   - "fastio/all.hpp"
   - "fastio"
 title: cscba Library
-theme: jekyll-theme-midnight
-# theme: jekyll-theme-cayman
+theme: jekyll-theme-cayman
