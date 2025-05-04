@@ -11,4 +11,5 @@
 #include <data_structure/tree/all.hpp>
 #include <data_structure/unionfind.hpp>
 #include <data_structure/unionfind_with_potential.hpp>
+#include <data_structure/wavelet_matrix.hpp>
 #include <data_structure/wavelet_matrix/all.hpp>

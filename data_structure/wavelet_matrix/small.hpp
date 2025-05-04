@@ -1,5 +1,5 @@
 #pragma once
-#include <data_structure/wavelet_matrix/base.hpp>
+#include <data_structure/wavelet_matrix.hpp>
 
 template <typename T>
 T WaveletMatrix<T>::small(int l, int r, int p) {
