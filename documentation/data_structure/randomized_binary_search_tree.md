@@ -2,7 +2,7 @@
 title: Randomized Binary Search Tree
 documentation_of: data_structure/randomized_binary_search_tree.hpp
 ---
-ランダム化二分探索木（Treap）をベースにしたデータ構造で、暗黙的なキー（配列のようなインデックス）を用いて要素の挿入、削除、区間に対する操作（反転、集約値取得）を高速に行うことができます。遅延評価（Lazy Propagation）により区間反転をサポートしています。
+ランダム化二分探索木（Randomized Binary Search Tree, RBST）は、暗黙的なキー（配列のようなインデックス）を用いて要素の挿入、削除、区間に対する操作（反転、集約値取得）を高速に行うことができるデータ構造です。遅延評価（Lazy Propagation）により区間反転をサポートしています。
 
 テンプレートパラメータ:
 - `T`: 要素の型。
