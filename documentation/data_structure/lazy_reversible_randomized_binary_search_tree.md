@@ -3,6 +3,7 @@ title: Lazy Reversible Randomized Binary Search Tree
 documentation_of: data_structure/lazy_reversible_randomized_binary_search_tree.hpp
 ---
 要素の挿入、削除、区間に対する更新（遅延伝播）、区間反転、区間集約を高速に行うことができるデータ構造です。ランダム化平衡二分探索木をベースに、遅延伝播と区間反転の機能を加えています。
+俗にいう、遅延伝搬反転可能乱択平衡二分探索木です。
 
 テンプレートパラメータ:
 - `T`: 要素の型。
