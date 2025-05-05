@@ -1,12 +1,14 @@
 #pragma once
+
 #include <utility>
 
-template <typename T, auto op, auto e>
-struct SplayTree {
+template <typename T, auto op, auto e, typename S, auto mapping, auto composition, auto id>
+struct LazyReversibleSplayTree {
     struct node;
     using nptr = node*;
     struct node {
         T v, p, r;
+        S lz{id()};
         bool rev{false};
         int siz{1};
         nptr left{nullptr}, right{nullptr}, parent{nullptr};
@@ -37,6 +39,15 @@ struct SplayTree {
             }
             ptr->rev = false;
         }
+        {
+            if (ptr->left) {
+                prop(ptr->left, ptr->lz);
+            }
+            if (ptr->right) {
+                prop(ptr->right, ptr->lz);
+            }
+            ptr->lz = id();
+        }
     }
 
     void toggle(nptr ptr) {
@@ -48,17 +59,12 @@ struct SplayTree {
         ptr->rev ^= true;
     }
 
-    static inline int rng() {
-        static int x = 123456789;
-        static int y = 362436069;
-        static int z = 521288629;
-        static int w = 88675123;
-        int t;
-        t = x ^ (x << 11);
-        x = y;
-        y = z;
-        z = w;
-        return w = (w ^ (w >> 19)) ^ (t ^ (t >> 8));
+    void prop(nptr& ptr, const S x) {
+        if (!ptr) return;
+        ptr->v = mapping(x, ptr->v);
+        ptr->p = mapping(x, ptr->p);
+        ptr->r = mapping(x, ptr->r);
+        ptr->lz = composition(x, ptr->lz);
     }
 
     void splay(nptr ptr) {
@@ -107,23 +113,18 @@ struct SplayTree {
             return nullptr;
         }
         if (!l) {
-            splay(r);
             return r;
         }
         if (!r) {
-            splay(l);
             return l;
         }
-        splay(l);
-        splay(r);
         l = get_right(l);
         splay(l);
-        l->right = (r);
+        l->right = r;
         l->right->parent = l;
         update(l);
         return l;
     }
-
     std::pair<nptr, nptr> split(nptr ptr, int k) {
         if (!ptr) {
             return {nullptr, nullptr};
@@ -213,6 +214,13 @@ struct SplayTree {
         auto [L, tmp] = split(ptr, l);
         auto [M, R] = split(tmp, r - l);
         toggle(M);
+        ptr = merge(merge(L, M), R);
+    }
+
+    void apply(nptr& ptr, int l, int r, S x) {
+        auto [L, tmp] = split(ptr, l);
+        auto [M, R] = split(tmp, r - l);
+        prop(M, x);
         ptr = merge(merge(L, M), R);
     }
 

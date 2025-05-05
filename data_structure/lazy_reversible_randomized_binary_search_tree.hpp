@@ -17,7 +17,7 @@ struct LazyReversibleRandomizedBinarySearchTree {
     void update(nptr& ptr) {
         ptr->siz = size(ptr->left) + size(ptr->right) + 1;
         ptr->p = op(op(ptr->left ? ptr->left->p : e(), ptr->v), ptr->right ? ptr->right->p : e());
-        ptr->r = op(op(ptr->right ? ptr->right->p : e(), ptr->v), ptr->left ? ptr->left->p : e());
+        ptr->r = op(op(ptr->right ? ptr->right->r : e(), ptr->v), ptr->left ? ptr->left->r : e());
     }
 
     static int size(const nptr& ptr) {
