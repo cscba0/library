@@ -29,7 +29,7 @@ struct LazyReversibleSplayTree {
         return !ptr->parent || (ptr->parent->left != ptr && ptr->parent->right != ptr);
     }
 
-    void push(nptr ptr) {
+    void push(nptr& ptr) {
         if (ptr->rev) {
             if (ptr->left) {
                 toggle(ptr->left);
@@ -50,7 +50,7 @@ struct LazyReversibleSplayTree {
         }
     }
 
-    void toggle(nptr ptr) {
+    void toggle(nptr& ptr) {
         if (!ptr) {
             return;
         }
@@ -67,7 +67,7 @@ struct LazyReversibleSplayTree {
         ptr->lz = composition(x, ptr->lz);
     }
 
-    void splay(nptr ptr) {
+    void splay(nptr& ptr) {
         if (!ptr) return;
         push(ptr);
         while (!is_root(ptr)) {
@@ -88,22 +88,6 @@ struct LazyReversibleSplayTree {
             update(pp);
         }
         update(ptr);
-    }
-
-    nptr get_left(nptr ptr) {
-        while (ptr->left) {
-            push(ptr);
-            ptr = ptr->left;
-        }
-        return ptr;
-    }
-
-    nptr get_right(nptr ptr) {
-        while (ptr->right) {
-            push(ptr);
-            ptr = ptr->right;
-        }
-        return ptr;
     }
 
     nptr merge(nptr l, nptr r) {
@@ -149,7 +133,7 @@ struct LazyReversibleSplayTree {
         return {l, ptr};
     }
 
-    inline int pos(const nptr ptr) {
+    inline int pos(const nptr& ptr) {
         if (ptr->parent) {
             if (ptr->parent->left == ptr) return -1;
             if (ptr->parent->right == ptr) return 1;
@@ -157,7 +141,7 @@ struct LazyReversibleSplayTree {
         return 0;
     }
 
-    void rotate(nptr ptr) {
+    void rotate(nptr& ptr) {
         nptr x = ptr->parent;
         nptr y = x->parent;
         if (pos(ptr) == -1) {
