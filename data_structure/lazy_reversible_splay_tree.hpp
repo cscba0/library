@@ -71,25 +71,23 @@ struct LazyReversibleSplayTree {
         if (!ptr) return;
         push(ptr);
         while (!is_root(ptr)) {
-            nptr x = ptr->parent;
-            if (is_root(x)) {
-                push(x);
-                push(ptr);
+            nptr p = ptr->parent, pp = ptr->parent;
+            if (is_root(p)) {
                 rotate(ptr);
+                update(p);
             } else {
-                nptr y = x->parent;
-                push(y);
-                push(x);
-                push(ptr);
-                if (pos(x) == pos(ptr)) {
-                    rotate(x);
+                if (pos(ptr) == pos(p)) {
+                    rotate(p);
                     rotate(ptr);
                 } else {
                     rotate(ptr);
                     rotate(ptr);
                 }
             }
+            update(p);
+            update(pp);
         }
+        update(ptr);
     }
 
     nptr get_left(nptr ptr) {
@@ -109,82 +107,47 @@ struct LazyReversibleSplayTree {
     }
 
     nptr merge(nptr l, nptr r) {
-        if (!l && !r) {
-            return nullptr;
-        }
         if (!l) {
             return r;
         }
         if (!r) {
             return l;
         }
-        l = get_right(l);
-        splay(l);
+        l = kth(l, l->siz - 1);
+        update(l);
         l->right = r;
-        l->right->parent = l;
+        r->parent = l;
         update(l);
         return l;
     }
 
-    nptr kth(nptr root, int k) {
-        push(root);
-        int left_size = size(root->left);
-        if (k < left_size) return kth(root->left, k);
-        if (k == left_size) return root;
-        return kth(root->right, k - left_size - 1);
-    }
-
-    std::pair<nptr, nptr> split(nptr root, int k) {
-        if (!root) return {nullptr, nullptr};
-        if (k == 0) return {nullptr, root};
-        if (k == size(root)) return {root, nullptr};
-
-        // k 番目のノードを splay してルートに
-        nptr x = kth(root, k);
-        splay(x);
-
-        // 左部分木を切り離し
-        nptr L = x->left;
-        if (L) {
-            L->parent = nullptr;
-            x->left = nullptr;
-            update(x);
+    nptr kth(nptr ptr, int k) {
+        while (true) {
+            push(ptr);
+            int siz = size(ptr->left);
+            if (k < siz) {
+                ptr = ptr->left;
+            } else if (k == siz) {
+                splay(ptr);
+                return ptr;
+            } else {
+                k -= siz + 1;
+                ptr = ptr->right;
+            }
         }
-        return {L, x};
     }
-    // std::pair<nptr, nptr> split(nptr ptr, int k) {
-    //     if (!ptr) {
-    //         return {nullptr, nullptr};
-    //     }
-    //     if (k == 0) {
-    //         ptr->parent = nullptr;
-    //         return {nullptr, ptr};
-    //     }
-    //     if (k == size(ptr)) {
-    //         ptr->parent = nullptr;
-    //         return {ptr, nullptr};
-    //     }
-    //     push(ptr);
-    //     if (k <= size(ptr->left)) {
-    //         auto [L, R] = split(ptr->left, k);
-    //         ptr->left = R;
-    //         ptr->parent = nullptr;
-    //         if (R) {
-    //             R->parent = ptr;
-    //         }
-    //         update(ptr);
-    //         return {L, ptr};
-    //     } else {
-    //         auto [L, R] = split(ptr->right, k - size(ptr->left) - 1);
-    //         ptr->right = L;
-    //         ptr->parent = nullptr;
-    //         if (L) {
-    //             L->parent = ptr;
-    //         }
-    //         update(ptr);
-    //         return {ptr, R};
-    //     }
-    // }
+
+    std::pair<nptr, nptr> split(nptr ptr, int k) {
+        if (!ptr) return {nullptr, nullptr};
+        if (k == 0) return {nullptr, ptr};
+        if (k == ptr->siz) return {ptr, nullptr};
+        ptr = kth(ptr, k);
+        nptr l = ptr->left;
+        ptr->left = nullptr;
+        l->parent = nullptr;
+        update(ptr);
+        return {l, ptr};
+    }
 
     inline int pos(const nptr ptr) {
         if (ptr->parent) {
@@ -223,18 +186,22 @@ struct LazyReversibleSplayTree {
     }
 
     void insert(nptr& ptr, int k, T v) {
-        // splay(ptr);
         auto [L, R] = split(ptr, k);
         nptr new_ptr = new node{v};
         ptr = merge(merge(L, new_ptr), R);
     }
 
     void erase(nptr& ptr, int k) {
-        // splay(ptr);
-        auto [L, tmp] = split(ptr, k);
-        auto [M, R] = split(tmp, 1);
-        delete M;
-        ptr = merge(L, R);
+        ptr = kth(ptr, k);
+        nptr l = ptr->left, r = ptr->right;
+        if (l) {
+            l->parent = nullptr;
+        }
+        if (r) {
+            r->parent = nullptr;
+        }
+        delete ptr;
+        ptr = merge(l, r);
     }
 
     void reverse(nptr& ptr, int l, int r) {
