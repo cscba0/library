@@ -1,10 +1,10 @@
 #pragma once
-#include <memory>
+#include <utility>
 
 template <typename T, auto op, auto e>
 struct SplayTree {
     struct node;
-    using nptr = std::unique_ptr<node>;
+    using nptr = node*;
     struct node {
         T v, p, r;
         bool rev{false};
@@ -13,21 +13,21 @@ struct SplayTree {
         node(T _v) : v(_v), p(_v), r(_v) {}
     };
 
-    void update(nptr& ptr) {
+    void update(nptr ptr) {
         ptr->siz = size(ptr->left) + size(ptr->right) + 1;
         ptr->p = op(op(ptr->left ? ptr->left->p : e(), ptr->v), ptr->right ? ptr->right->p : e());
         ptr->r = op(op(ptr->right ? ptr->right->p : e(), ptr->v), ptr->left ? ptr->left->p : e());
     }
 
-    static int size(const nptr& ptr) {
+    static int size(const nptr ptr) {
         return !ptr ? 0 : ptr->siz;
     }
 
-    static bool is_root(const nptr& ptr) {
+    static bool is_root(const nptr ptr) {
         return !ptr->parent || (ptr->parent->left != ptr && ptr->parent->right != ptr);
     }
 
-    void push(nptr& ptr) {
+    void push(nptr ptr) {
         if (ptr->rev) {
             if (ptr->left) {
                 toggle(ptr->left);
@@ -39,7 +39,7 @@ struct SplayTree {
         }
     }
 
-    void toggle(nptr& ptr) {
+    void toggle(nptr ptr) {
         if (!ptr) {
             return;
         }
@@ -61,17 +61,17 @@ struct SplayTree {
         return w = (w ^ (w >> 19)) ^ (t ^ (t >> 8));
     }
 
-    void splay(nptr& ptr) {
+    void splay(nptr ptr) {
         if (!ptr) return;
         push(ptr);
         while (!is_root(ptr)) {
-            nptr& x = ptr->parent;
+            nptr x = ptr->parent;
             if (is_root(x)) {
                 push(x);
                 push(ptr);
                 rotate(ptr);
             } else {
-                nptr& y = x->parent;
+                nptr y = x->parent;
                 push(y);
                 push(x);
                 push(ptr);
@@ -86,20 +86,20 @@ struct SplayTree {
         }
     }
 
-    nptr get_left(nptr& ptr) {
+    nptr get_left(nptr ptr) {
         while (ptr->left) {
             push(ptr);
             ptr = ptr->left;
         }
-        return std::move(ptr);
+        return ptr;
     }
 
-    nptr get_right(nptr& ptr) {
+    nptr get_right(nptr ptr) {
         while (ptr->right) {
             push(ptr);
             ptr = ptr->right;
         }
-        return std::move(ptr);
+        return ptr;
     }
 
     nptr merge(nptr l, nptr r) {
@@ -108,20 +108,20 @@ struct SplayTree {
         }
         if (!l) {
             splay(r);
-            return std::move(r);
+            return r;
         }
         if (!r) {
             splay(l);
-            return std::move(l);
+            return l;
         }
         splay(l);
         splay(r);
         l = get_right(l);
         splay(l);
-        l->right = std::move(r);
-        l->right->parent = l.get();
+        l->right = (r);
+        l->right->parent = l;
         update(l);
-        return std::move(l);
+        return l;
     }
 
     std::pair<nptr, nptr> split(nptr ptr, int k) {
@@ -129,95 +129,98 @@ struct SplayTree {
             return {nullptr, nullptr};
         }
         if (k == 0) {
-            return {nullptr, std::move(ptr)};
+            ptr->parent = nullptr;
+            return {nullptr, ptr};
         }
         if (k == size(ptr)) {
-            return {std::move(ptr), nullptr};
+            ptr->parent = nullptr;
+            return {ptr, nullptr};
         }
         push(ptr);
         if (k <= size(ptr->left)) {
-            auto [L, R] = split(std::move(ptr->left), k);
-            ptr->left = std::move(R);
-            if (ptr->left) {
-                ptr->left->parent = ptr.get();
+            auto [L, R] = split(ptr->left, k);
+            ptr->left = R;
+            ptr->parent = nullptr;
+            if (R) {
+                R->parent = ptr;
             }
             update(ptr);
-            return {std::move(L), std::move(ptr)};
+            return {L, ptr};
         } else {
-            auto [L, R] = split(std::move(ptr->right), k - size(ptr->left) - 1);
-            ptr->right = std::move(L);
-            if (ptr->right) {
-                ptr->right->parent = ptr.get();
+            auto [L, R] = split(ptr->right, k - size(ptr->left) - 1);
+            ptr->right = L;
+            ptr->parent = nullptr;
+            if (L) {
+                L->parent = ptr;
             }
             update(ptr);
-            return {std::move(ptr), std::move(R)};
+            return {ptr, R};
         }
     }
 
-    inline int pos(const nptr& ptr) {
+    inline int pos(const nptr ptr) {
         if (ptr->parent) {
-            if (ptr->parent->left.get() == ptr.get()) return -1;
-            if (ptr->parent->right.get() == ptr.get()) return 1;
+            if (ptr->parent->left == ptr) return -1;
+            if (ptr->parent->right == ptr) return 1;
         }
         return 0;
     }
 
-    void rotate(nptr& ptr) {
-        nptr x = std::move(ptr->parent);
-        nptr y = std::move(x->parent);
+    void rotate(nptr ptr) {
+        nptr x = ptr->parent;
+        nptr y = x->parent;
         if (pos(ptr) == -1) {
-            x->left = std::move(ptr->right);
-            if (x->left) {
-                x->left->parent = &x;
+            if ((x->left = ptr->right)) {
+                x->left->parent = x;
             }
-            //     // ptr->right = std::move(x);
-            //     // ptr->right->parent = ptr.get();
+            ptr->right = x;
+            x->parent = ptr;
         } else {
-            //     // if ((x->right = std::move(ptr->left))) {
-            //     //     x->right->parent = x.get();
-            //     // }
-            //     // ptr->left = std::move(x);
-            //     // ptr->left->parent = ptr.get();
+            if ((x->right = ptr->left)) {
+                x->right->parent = x;
+            }
+            ptr->left = x;
+            x->parent = ptr;
         }
-        // update(ptr->left);
-        // update(ptr);
-        // if ((ptr->parent = std::move(y))) {
-        //     if (ptr->parent->left.get() == ptr->right.get()) {
-        //         ptr->parent->left = std::move(ptr);
-        //     }
-        //     if (ptr->parent->right.get() == ptr->left.get()) {
-        //         ptr->parent->right = std::move(ptr);
-        //     }
-        // }
+        update(x);
+        update(ptr);
+        if ((ptr->parent = y)) {
+            if (y->left == x) {
+                y->left = ptr;
+            }
+            if (y->right == x) {
+                y->right = ptr;
+            }
+        }
     }
 
     void insert(nptr& ptr, int k, T v) {
         splay(ptr);
-        // auto [L, R] = split(std::move(ptr), k);
-        // nptr new_ptr = std::make_unique<node>(v);
-        // ptr = merge(merge(std::move(L), std::move(new_ptr)), std::move(R));
+        auto [L, R] = split(ptr, k);
+        nptr new_ptr = new node{v};
+        ptr = merge(merge(L, new_ptr), R);
     }
 
     void erase(nptr& ptr, int k) {
         splay(ptr);
-        auto [L, tmp] = split(std::move(ptr), k);
-        auto [M, R] = split(std::move(tmp), 1);
-        M.reset();
-        ptr = merge(std::move(L), std::move(R));
+        auto [L, tmp] = split(ptr, k);
+        auto [M, R] = split(tmp, 1);
+        delete M;
+        ptr = merge(L, R);
     }
 
     void reverse(nptr& ptr, int l, int r) {
-        auto [L, tmp] = split(std::move(ptr), l);
-        auto [M, R] = split(std::move(tmp), r - l);
+        auto [L, tmp] = split(ptr, l);
+        auto [M, R] = split(tmp, r - l);
         toggle(M);
-        ptr = merge(merge(std::move(L), std::move(M)), std::move(R));
+        ptr = merge(merge(L, M), R);
     }
 
     T operator()(nptr& ptr, int l, int r) {
-        auto [L, tmp] = split(std::move(ptr), l);
-        auto [M, R] = split(std::move(tmp), r - l);
+        auto [L, tmp] = split(ptr, l);
+        auto [M, R] = split(tmp, r - l);
         auto res = M ? M->p : e();
-        ptr = merge(merge(std::move(L), std::move(M)), std::move(R));
+        ptr = merge(merge(L, M), R);
         return res;
     }
 };
