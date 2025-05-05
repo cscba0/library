@@ -27,7 +27,7 @@ struct SplayTree {
         return !ptr->parent || (ptr->parent->left != ptr && ptr->parent->right != ptr);
     }
 
-    void push(nptr ptr) {
+    void push(nptr& ptr) {
         if (ptr->rev) {
             if (ptr->left) {
                 toggle(ptr->left);
@@ -39,7 +39,7 @@ struct SplayTree {
         }
     }
 
-    void toggle(nptr ptr) {
+    void toggle(nptr& ptr) {
         if (!ptr) {
             return;
         }
@@ -48,117 +48,73 @@ struct SplayTree {
         ptr->rev ^= true;
     }
 
-    static inline int rng() {
-        static int x = 123456789;
-        static int y = 362436069;
-        static int z = 521288629;
-        static int w = 88675123;
-        int t;
-        t = x ^ (x << 11);
-        x = y;
-        y = z;
-        z = w;
-        return w = (w ^ (w >> 19)) ^ (t ^ (t >> 8));
-    }
-
-    void splay(nptr ptr) {
+    void splay(nptr& ptr) {
         if (!ptr) return;
         push(ptr);
         while (!is_root(ptr)) {
-            nptr x = ptr->parent;
-            if (is_root(x)) {
-                push(x);
-                push(ptr);
+            nptr p = ptr->parent, pp = ptr->parent;
+            if (is_root(p)) {
                 rotate(ptr);
+                update(p);
             } else {
-                nptr y = x->parent;
-                push(y);
-                push(x);
-                push(ptr);
-                if (pos(x) == pos(ptr)) {
-                    rotate(x);
+                if (pos(ptr) == pos(p)) {
+                    rotate(p);
                     rotate(ptr);
                 } else {
                     rotate(ptr);
                     rotate(ptr);
                 }
             }
+            update(p);
+            update(pp);
         }
-    }
-
-    nptr get_left(nptr ptr) {
-        while (ptr->left) {
-            push(ptr);
-            ptr = ptr->left;
-        }
-        return ptr;
-    }
-
-    nptr get_right(nptr ptr) {
-        while (ptr->right) {
-            push(ptr);
-            ptr = ptr->right;
-        }
-        return ptr;
+        update(ptr);
     }
 
     nptr merge(nptr l, nptr r) {
-        if (!l && !r) {
-            return nullptr;
-        }
         if (!l) {
-            splay(r);
             return r;
         }
         if (!r) {
-            splay(l);
             return l;
         }
-        splay(l);
-        splay(r);
-        l = get_right(l);
-        splay(l);
-        l->right = (r);
-        l->right->parent = l;
+        l = kth(l, l->siz - 1);
+        update(l);
+        l->right = r;
+        r->parent = l;
         update(l);
         return l;
     }
 
-    std::pair<nptr, nptr> split(nptr ptr, int k) {
-        if (!ptr) {
-            return {nullptr, nullptr};
-        }
-        if (k == 0) {
-            ptr->parent = nullptr;
-            return {nullptr, ptr};
-        }
-        if (k == size(ptr)) {
-            ptr->parent = nullptr;
-            return {ptr, nullptr};
-        }
-        push(ptr);
-        if (k <= size(ptr->left)) {
-            auto [L, R] = split(ptr->left, k);
-            ptr->left = R;
-            ptr->parent = nullptr;
-            if (R) {
-                R->parent = ptr;
+    nptr kth(nptr ptr, int k) {
+        while (true) {
+            push(ptr);
+            int siz = size(ptr->left);
+            if (k < siz) {
+                ptr = ptr->left;
+            } else if (k == siz) {
+                splay(ptr);
+                return ptr;
+            } else {
+                k -= siz + 1;
+                ptr = ptr->right;
             }
-            update(ptr);
-            return {L, ptr};
-        } else {
-            auto [L, R] = split(ptr->right, k - size(ptr->left) - 1);
-            ptr->right = L;
-            ptr->parent = nullptr;
-            if (L) {
-                L->parent = ptr;
-            }
-            update(ptr);
-            return {ptr, R};
         }
     }
 
-    inline int pos(const nptr ptr) {
+    std::pair<nptr, nptr> split(nptr ptr, int k) {
+        if (!ptr) return {nullptr, nullptr};
+        if (k == 0) return {nullptr, ptr};
+        if (k == ptr->siz) return {ptr, nullptr};
+        ptr = kth(ptr, k);
+        nptr l = ptr->left;
+        ptr->left = nullptr;
+        l->parent = nullptr;
+        update(ptr);
+        return {l, ptr};
+    }
+
+    inline int pos(const nptr& ptr) {
         if (ptr->parent) {
             if (ptr->parent->left == ptr) return -1;
             if (ptr->parent->right == ptr) return 1;
@@ -166,7 +122,7 @@ struct SplayTree {
         return 0;
     }
 
-    void rotate(nptr ptr) {
+    void rotate(nptr& ptr) {
         nptr x = ptr->parent;
         nptr y = x->parent;
         if (pos(ptr) == -1) {
@@ -195,18 +151,22 @@ struct SplayTree {
     }
 
     void insert(nptr& ptr, int k, T v) {
-        splay(ptr);
         auto [L, R] = split(ptr, k);
         nptr new_ptr = new node{v};
         ptr = merge(merge(L, new_ptr), R);
     }
 
     void erase(nptr& ptr, int k) {
-        splay(ptr);
-        auto [L, tmp] = split(ptr, k);
-        auto [M, R] = split(tmp, 1);
-        delete M;
-        ptr = merge(L, R);
+        ptr = kth(ptr, k);
+        nptr l = ptr->left, r = ptr->right;
+        if (l) {
+            l->parent = nullptr;
+        }
+        if (r) {
+            r->parent = nullptr;
+        }
+        delete ptr;
+        ptr = merge(l, r);
     }
 
     void reverse(nptr& ptr, int l, int r) {
