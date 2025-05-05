@@ -125,39 +125,66 @@ struct LazyReversibleSplayTree {
         update(l);
         return l;
     }
-    std::pair<nptr, nptr> split(nptr ptr, int k) {
-        if (!ptr) {
-            return {nullptr, nullptr};
-        }
-        if (k == 0) {
-            ptr->parent = nullptr;
-            return {nullptr, ptr};
-        }
-        if (k == size(ptr)) {
-            ptr->parent = nullptr;
-            return {ptr, nullptr};
-        }
-        push(ptr);
-        if (k <= size(ptr->left)) {
-            auto [L, R] = split(ptr->left, k);
-            ptr->left = R;
-            ptr->parent = nullptr;
-            if (R) {
-                R->parent = ptr;
-            }
-            update(ptr);
-            return {L, ptr};
-        } else {
-            auto [L, R] = split(ptr->right, k - size(ptr->left) - 1);
-            ptr->right = L;
-            ptr->parent = nullptr;
-            if (L) {
-                L->parent = ptr;
-            }
-            update(ptr);
-            return {ptr, R};
-        }
+
+    nptr kth(nptr root, int k) {
+        push(root);
+        int left_size = size(root->left);
+        if (k < left_size) return kth(root->left, k);
+        if (k == left_size) return root;
+        return kth(root->right, k - left_size - 1);
     }
+
+    std::pair<nptr, nptr> split(nptr root, int k) {
+        if (!root) return {nullptr, nullptr};
+        if (k == 0) return {nullptr, root};
+        if (k == size(root)) return {root, nullptr};
+
+        // k 番目のノードを splay してルートに
+        nptr x = kth(root, k);
+        splay(x);
+
+        // 左部分木を切り離し
+        nptr L = x->left;
+        if (L) {
+            L->parent = nullptr;
+            x->left = nullptr;
+            update(x);
+        }
+        return {L, x};
+    }
+    // std::pair<nptr, nptr> split(nptr ptr, int k) {
+    //     if (!ptr) {
+    //         return {nullptr, nullptr};
+    //     }
+    //     if (k == 0) {
+    //         ptr->parent = nullptr;
+    //         return {nullptr, ptr};
+    //     }
+    //     if (k == size(ptr)) {
+    //         ptr->parent = nullptr;
+    //         return {ptr, nullptr};
+    //     }
+    //     push(ptr);
+    //     if (k <= size(ptr->left)) {
+    //         auto [L, R] = split(ptr->left, k);
+    //         ptr->left = R;
+    //         ptr->parent = nullptr;
+    //         if (R) {
+    //             R->parent = ptr;
+    //         }
+    //         update(ptr);
+    //         return {L, ptr};
+    //     } else {
+    //         auto [L, R] = split(ptr->right, k - size(ptr->left) - 1);
+    //         ptr->right = L;
+    //         ptr->parent = nullptr;
+    //         if (L) {
+    //             L->parent = ptr;
+    //         }
+    //         update(ptr);
+    //         return {ptr, R};
+    //     }
+    // }
 
     inline int pos(const nptr ptr) {
         if (ptr->parent) {
@@ -196,14 +223,14 @@ struct LazyReversibleSplayTree {
     }
 
     void insert(nptr& ptr, int k, T v) {
-        splay(ptr);
+        // splay(ptr);
         auto [L, R] = split(ptr, k);
         nptr new_ptr = new node{v};
         ptr = merge(merge(L, new_ptr), R);
     }
 
     void erase(nptr& ptr, int k) {
-        splay(ptr);
+        // splay(ptr);
         auto [L, tmp] = split(ptr, k);
         auto [M, R] = split(tmp, 1);
         delete M;
