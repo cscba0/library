@@ -1,4 +1,5 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/dynamic_sequence_range_affine_range_sum"
+#define IGNORE
 
 #include <data_structure/lazy_reversible_randomized_binary_search_tree.hpp>
 #include <fastio/base.hpp>
