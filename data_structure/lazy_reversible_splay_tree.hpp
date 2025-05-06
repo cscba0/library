@@ -1,5 +1,6 @@
 #pragma once
 #include <utility>
+#include <vector>
 
 template <typename T, auto op, auto e, typename S, auto mapping, auto composition, auto id>
 struct LazyReversibleSplayTree {
@@ -13,6 +14,32 @@ struct LazyReversibleSplayTree {
         nptr left{nullptr}, right{nullptr}, parent{nullptr};
         node(T _v) : v(_v), p(_v), r(_v) {}
     };
+
+    LazyReversibleSplayTree() {}
+    LazyReversibleSplayTree(const std::vector<T>& vec, nptr& ptr) {
+        if (vec.empty()) return;
+        auto dfs = [&](int l, int r, auto dfs) -> nptr {
+            if (r <= l) {
+                return nullptr;
+            }
+            if (l + 1 == r) {
+                return new node{vec[l]};
+            }
+            int mid = (l + r) >> 1;
+            nptr new_ptr = new node{vec[mid]};
+            new_ptr->left = dfs(l, mid, dfs);
+            if (new_ptr->left) {
+                new_ptr->left->parent = new_ptr;
+            }
+            new_ptr->right = dfs(mid + 1, r, dfs);
+            if (new_ptr->right) {
+                new_ptr->right->parent = new_ptr;
+            }
+            update(new_ptr);
+            return new_ptr;
+        };
+        ptr = dfs(0, static_cast<int>(vec.size()), dfs);
+    }
 
     void update(nptr ptr) {
         ptr->siz = size(ptr->left) + size(ptr->right) + 1;
