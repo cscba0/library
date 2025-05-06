@@ -1,5 +1,4 @@
 #pragma once
-
 #include <utility>
 
 template <typename T, auto op, auto e, typename S, auto mapping, auto composition, auto id>
@@ -67,12 +66,12 @@ struct LazyReversibleSplayTree {
         ptr->lz = composition(x, ptr->lz);
     }
 
-    void splay(nptr& ptr) {
+    void splay(nptr& ptr, int root_size) {
         if (!ptr) return;
         push(ptr);
-        while (!is_root(ptr)) {
+        while (ptr->siz != root_size) {
             nptr p = ptr->parent, pp = ptr->parent;
-            if (is_root(p)) {
+            if (p->siz == root_size) {
                 rotate(ptr);
                 update(p);
             } else {
@@ -106,31 +105,21 @@ struct LazyReversibleSplayTree {
     }
 
     nptr kth(nptr ptr, int k) {
+        int root_size = ptr->siz;
         while (true) {
+            if (!ptr) return nullptr;
             push(ptr);
             int siz = size(ptr->left);
             if (k < siz) {
                 ptr = ptr->left;
             } else if (k == siz) {
-                splay(ptr);
+                splay(ptr, root_size);
                 return ptr;
             } else {
                 k -= siz + 1;
                 ptr = ptr->right;
             }
         }
-    }
-
-    std::pair<nptr, nptr> split(nptr ptr, int k) {
-        if (!ptr) return {nullptr, nullptr};
-        if (k == 0) return {nullptr, ptr};
-        if (k == ptr->siz) return {ptr, nullptr};
-        ptr = kth(ptr, k);
-        nptr l = ptr->left;
-        ptr->left = nullptr;
-        l->parent = nullptr;
-        update(ptr);
-        return {l, ptr};
     }
 
     inline int pos(const nptr& ptr) {
@@ -170,43 +159,97 @@ struct LazyReversibleSplayTree {
     }
 
     void insert(nptr& ptr, int k, T v) {
-        auto [L, R] = split(ptr, k);
         nptr new_ptr = new node{v};
-        ptr = merge(merge(L, new_ptr), R);
+        if (!ptr) {
+            ptr = new_ptr;
+            return;
+        }
+        if (ptr->siz == k) {
+            new_ptr->left = ptr;
+            ptr->parent = new_ptr;
+            ptr = new_ptr;
+            update(ptr);
+        } else if (k == 0) {
+            new_ptr->right = ptr;
+            ptr->parent = new_ptr;
+            ptr = new_ptr;
+            update(ptr);
+        } else {
+            ptr = kth(ptr, k);
+            new_ptr->left = ptr->left;
+            ptr->left->parent = new_ptr;
+            new_ptr->right = ptr;
+            ptr->parent = new_ptr;
+            ptr->left = nullptr;
+            update(ptr);
+            ptr = new_ptr;
+            update(ptr);
+        }
     }
 
     void erase(nptr& ptr, int k) {
         ptr = kth(ptr, k);
         nptr l = ptr->left, r = ptr->right;
-        if (l) {
-            l->parent = nullptr;
-        }
-        if (r) {
-            r->parent = nullptr;
-        }
         delete ptr;
         ptr = merge(l, r);
     }
 
     void reverse(nptr& ptr, int l, int r) {
-        auto [L, tmp] = split(ptr, l);
-        auto [M, R] = split(tmp, r - l);
-        toggle(M);
-        ptr = merge(merge(L, M), R);
+        if (r <= l) return;
+        if (l == 0 && r == ptr->siz) {
+            toggle(ptr);
+        } else if (l == 0) {
+            ptr = kth(ptr, r);
+            toggle(ptr->left);
+            update(ptr);
+        } else if (r == ptr->siz) {
+            ptr = kth(ptr, l - 1);
+            toggle(ptr->right);
+            update(ptr);
+        } else {
+            ptr = kth(ptr, l - 1);
+            ptr->right = kth(ptr->right, r - l);
+            toggle(ptr->right->left);
+            update(ptr->right);
+            update(ptr);
+        }
     }
 
     void apply(nptr& ptr, int l, int r, S x) {
-        auto [L, tmp] = split(ptr, l);
-        auto [M, R] = split(tmp, r - l);
-        prop(M, x);
-        ptr = merge(merge(L, M), R);
+        if (r <= l) return;
+        if (l == 0 && r == ptr->siz) {
+            prop(ptr, x);
+        } else if (l == 0) {
+            ptr = kth(ptr, r);
+            prop(ptr->left, x);
+            update(ptr);
+        } else if (r == ptr->siz) {
+            ptr = kth(ptr, l - 1);
+            prop(ptr->right, x);
+            update(ptr);
+        } else {
+            ptr = kth(ptr, l - 1);
+            ptr->right = kth(ptr->right, r - l);
+            prop(ptr->right->left, x);
+            update(ptr->right);
+            update(ptr);
+        }
     }
 
     T operator()(nptr& ptr, int l, int r) {
-        auto [L, tmp] = split(ptr, l);
-        auto [M, R] = split(tmp, r - l);
-        auto res = M ? M->p : e();
-        ptr = merge(merge(L, M), R);
-        return res;
+        if (r <= l) return e();
+        if (l == 0 && r == ptr->siz) {
+            return ptr->p;
+        } else if (l == 0) {
+            ptr = kth(ptr, r);
+            return ptr->left->p;
+        } else if (r == ptr->siz) {
+            ptr = kth(ptr, l - 1);
+            return ptr->right->p;
+        } else {
+            ptr = kth(ptr, l - 1);
+            ptr->right = kth(ptr->right, r - l);
+            return ptr->right->left->p;
+        }
     }
 };
