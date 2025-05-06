@@ -75,6 +75,34 @@ struct SplayTree {
         ptr->rev ^= true;
     }
 
+    void rotate(nptr& ptr) {
+        nptr x = ptr->parent;
+        nptr y = x->parent;
+        if (pos(ptr) == -1) {
+            if ((x->left = ptr->right)) {
+                x->left->parent = x;
+            }
+            ptr->right = x;
+            x->parent = ptr;
+        } else {
+            if ((x->right = ptr->left)) {
+                x->right->parent = x;
+            }
+            ptr->left = x;
+            x->parent = ptr;
+        }
+        update(x);
+        update(ptr);
+        if ((ptr->parent = y)) {
+            if (y->left == x) {
+                y->left = ptr;
+            }
+            if (y->right == x) {
+                y->right = ptr;
+            }
+        }
+    }
+
     void splay(nptr& ptr, int root_size) {
         if (!ptr) return;
         push(ptr);
@@ -137,34 +165,6 @@ struct SplayTree {
             if (ptr->parent->right == ptr) return 1;
         }
         return 0;
-    }
-
-    void rotate(nptr& ptr) {
-        nptr x = ptr->parent;
-        nptr y = x->parent;
-        if (pos(ptr) == -1) {
-            if ((x->left = ptr->right)) {
-                x->left->parent = x;
-            }
-            ptr->right = x;
-            x->parent = ptr;
-        } else {
-            if ((x->right = ptr->left)) {
-                x->right->parent = x;
-            }
-            ptr->left = x;
-            x->parent = ptr;
-        }
-        update(x);
-        update(ptr);
-        if ((ptr->parent = y)) {
-            if (y->left == x) {
-                y->left = ptr;
-            }
-            if (y->right == x) {
-                y->right = ptr;
-            }
-        }
     }
 
     void insert(nptr& ptr, int k, T v) {
