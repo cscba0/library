@@ -103,27 +103,25 @@ struct SplayTree {
         }
     }
 
-    void splay(nptr& ptr) {
-        if (!ptr) return;
-        push(ptr);
-        while (!is_root(ptr)) {
-            nptr p = ptr->parent, pp = ptr->parent;
-            if (is_root(p)) {
-                rotate(ptr);
-                update(p);
-            } else {
-                if (pos(ptr) == pos(p)) {
+    void splay(nptr& x) {
+        if (!x) return;
+        while (!is_root(x)) {
+            nptr p = x->parent;
+            nptr g = p->parent;
+            if (!is_root(p)) push(g);
+            push(p);
+            push(x);
+            if (!is_root(p)) {
+                if (pos(x) == pos(p)) {
                     rotate(p);
-                    rotate(ptr);
                 } else {
-                    rotate(ptr);
-                    rotate(ptr);
+                    rotate(x);
                 }
             }
-            update(p);
-            update(pp);
+            rotate(x);
         }
-        update(ptr);
+        push(x);
+        update(x);
     }
 
     void splay(nptr& ptr, int root_size) {
