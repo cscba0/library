@@ -3,10 +3,9 @@
 #include <vector>
 
 template <typename T, auto op, auto e>
-struct LinkCutTree {
+struct LinkCutTree : public SplayTree<T, op, e> {
     using Splay = SplayTree<T, op, e>;
     using nptr = Splay::nptr;
-    Splay tree;
     std::vector<nptr> node;
 
     void add(T x) {
@@ -15,21 +14,21 @@ struct LinkCutTree {
 
     void expose(nptr& ptr) {
         while (true) {
-            tree.splay(ptr);
+            Splay::splay(ptr);
             ptr->right = nullptr;
-            tree.update(ptr);
+            Splay::update(ptr);
             if (!ptr->parent) {
                 return;
             }
-            tree.splay(ptr->parent);
+            Splay::splay(ptr->parent);
             ptr->parent->right = ptr;
-            tree.update(ptr->parent);
+            Splay::update(ptr->parent);
         }
     }
 
     void evert(nptr ptr) {
         expose(ptr);
-        tree.toggle(ptr);
+        Splay::toggle(ptr);
     }
 
     void link(int U, int V) {
@@ -46,14 +45,14 @@ struct LinkCutTree {
         expose(v);
         v->left->parent = nullptr;
         v->left = nullptr;
-        tree.update(v);
+        Splay::update(v);
     }
 
     void set(int U, T x) {
         nptr u = node[U];
         expose(u);
         u->v = x;
-        tree.update(u);
+        Splay::update(u);
     }
 
     T operator[](int U) {
