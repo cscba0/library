@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 #include <data_structure/splay_tree.hpp>
 #include <vector>
 
@@ -7,6 +8,20 @@ struct LinkCutTree : public SplayTree<T, op, e> {
     using Splay = SplayTree<T, op, e>;
     using nptr = Splay::nptr;
     std::vector<nptr> node;
+
+    LinkCutTree() {}
+    LinkCutTree(const std::vector<std::vector<int>>& g) : LinkCutTree(g, std::vector<T>(g.size(), e())) {}
+    LinkCutTree(const std::vector<std::vector<int>>& g, const std::vector<T>& v) {
+        for (uint32_t i = 0, siz = v.size(); i < siz; ++i) {
+            add(v[i]);
+        }
+        for (int u = 0, siz = v.size(); u < siz; ++u) {
+            for (int v : g[u]) {
+                if (u > v) continue;
+                link(u, v);
+            }
+        }
+    }
 
     void add(T x) {
         node.emplace_back(new Splay::node{x});

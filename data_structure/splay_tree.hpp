@@ -103,25 +103,85 @@ struct SplayTree {
         }
     }
 
-    void splay(nptr& x) {
-        if (!x) return;
-        while (!is_root(x)) {
-            nptr p = x->parent;
-            nptr g = p->parent;
-            if (!is_root(p)) push(g);
-            push(p);
-            push(x);
-            if (!is_root(p)) {
-                if (pos(x) == pos(p)) {
-                    rotate(p);
-                } else {
-                    rotate(x);
-                }
-            }
-            rotate(x);
+    void zig(nptr x) {
+        nptr p = x->parent;
+        if ((p->left = x->right)) {
+            x->right->parent = p;
         }
-        push(x);
-        update(x);
+        x->parent = p->parent;
+        if (!is_root(p)) {
+            if (p->parent->left == p) {
+                p->parent->left = x;
+
+            } else {
+                p->parent->right = x;
+            }
+        }
+        x->right = p;
+        p->parent = x;
+    }
+
+    void zag(nptr x) {
+        nptr p = x->parent;
+        if ((p->right = x->left)) {
+            x->left->parent = p;
+        }
+        x->parent = p->parent;
+        if (!is_root(p)) {
+            if (p->parent->left == p) {
+                p->parent->left = x;
+
+            } else {
+                p->parent->right = x;
+            }
+        }
+        x->left = p;
+        p->parent = x;
+    }
+
+    void splay(nptr& ptr) {
+        while (!is_root(ptr)) {
+            nptr p = ptr->parent;
+            if (is_root(p)) {
+                push(p);
+                push(ptr);
+                if (p->left == ptr)
+                    zig(ptr);
+                else
+                    zag(ptr);
+                ptr->p = p->p;
+                ptr->siz = p->siz;
+                update(p);
+            } else {
+                nptr g = p->parent;
+                push(g);
+                push(p);
+                push(ptr);
+                bool zigzig = (p->left == ptr) == (g->left == p);
+                if (zigzig) {
+                    if (p->left == ptr) {
+                        zig(p);
+                        zig(ptr);
+                    } else {
+                        zag(p);
+                        zag(ptr);
+                    }
+                } else {
+                    if (p->left == ptr) {
+                        zig(ptr);
+                        zag(ptr);
+                    } else {
+                        zag(ptr);
+                        zig(ptr);
+                    }
+                }
+                ptr->p = g->p;
+                ptr->siz = g->siz;
+                update(g);
+                update(p);
+            }
+        }
+        push(ptr);
     }
 
     void splay(nptr& ptr, int root_size) {
