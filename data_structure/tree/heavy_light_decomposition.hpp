@@ -135,4 +135,15 @@ struct HeavyLightDecomposition {
     T part(int u) {
         return seg(ran[u].first, ran[u].second + 1);
     }
+
+    int lca(int u, int v) {
+        while (root[u] != root[v]) {
+            if (dep[root[v]] < dep[root[u]]) {
+                u = per[root[u]];
+            } else {
+                v = per[root[v]];
+            }
+        }
+        return euler[std::min(ran[u].first, ran[v].first)];
+    }
 };
