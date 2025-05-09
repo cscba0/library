@@ -10,6 +10,11 @@ struct LinkCutTree : public SplayTree<T, op, e> {
     std::vector<nptr> node;
 
     LinkCutTree() {}
+    LinkCutTree(int n) {
+        for (int i = 0; i < n; i++) {
+            add(e());
+        }
+    }
     LinkCutTree(const std::vector<std::vector<int>>& g) : LinkCutTree(g, std::vector<T>(g.size(), e())) {}
     LinkCutTree(const std::vector<std::vector<int>>& g, const std::vector<T>& v) {
         for (uint32_t i = 0, siz = v.size(); i < siz; ++i) {
@@ -24,17 +29,19 @@ struct LinkCutTree : public SplayTree<T, op, e> {
     }
 
     void add(T x) {
-        node.emplace_back(new Splay::node{x});
+        node.emplace_back(new Splay::node{x, static_cast<int>(node.size())});
     }
 
-    void expose(nptr& ptr) {
+    int expose(nptr& ptr) {
+        nptr last = ptr;
         while (true) {
             Splay::splay(ptr);
             ptr->right = nullptr;
             Splay::update(ptr);
             if (!ptr->parent) {
-                return;
+                return last->idx;
             }
+            last = ptr->parent;
             Splay::splay(ptr->parent);
             ptr->parent->right = ptr;
             Splay::update(ptr->parent);
@@ -82,5 +89,12 @@ struct LinkCutTree : public SplayTree<T, op, e> {
         evert(u);
         expose(v);
         return v->p;
+    }
+
+    int lca(int U, int V) {
+        nptr u = node[U];
+        nptr v = node[V];
+        expose(u);
+        return expose(v);
     }
 };

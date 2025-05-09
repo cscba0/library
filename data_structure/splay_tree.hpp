@@ -9,9 +9,9 @@ struct SplayTree {
     struct node {
         T v, p, r;
         bool rev{false};
-        int siz{1};
+        int siz{1}, idx;
         nptr left{nullptr}, right{nullptr}, parent{nullptr};
-        node(T _v) : v(_v), p(_v), r(_v) {}
+        node(T _v, int _idx) : v(_v), p(_v), r(_v), idx(_idx) {}
     };
 
     SplayTree() {}
@@ -22,7 +22,7 @@ struct SplayTree {
                 return nullptr;
             }
             if (l + 1 == r) {
-                return new node{vec[l]};
+                return new node{vec[l], l};
             }
             int mid = (l + r) >> 1;
             nptr new_ptr = new node{vec[mid]};
@@ -248,8 +248,8 @@ struct SplayTree {
         return 0;
     }
 
-    void insert(nptr& ptr, int k, T v) {
-        nptr new_ptr = new node{v};
+    void insert(nptr& ptr, int k, T v, int idx) {
+        nptr new_ptr = new node{v, idx};
         if (!ptr) {
             ptr = new_ptr;
             return;
