@@ -1,14 +1,14 @@
 #pragma once
-#include <data_structure/segment_tree.hpp>
+#include <cstdint>
 #include <stack>
 #include <vector>
 
 template <typename T, auto op, auto e>
 struct HeavyLightDecomposition {
-    int n;
+    int n, N;
     std::vector<int> euler, dep, per, root, siz;
     std::vector<std::pair<int, int>> ran;
-    SegmentTree<T, op, e> seg, rev;
+    std::vector<T> seg, rev;
     explicit HeavyLightDecomposition(std::vector<std::vector<int>> g) : HeavyLightDecomposition(g, std::vector<T>(g.size(), e())) {}
     explicit HeavyLightDecomposition(std::vector<std::vector<int>> g, const std::vector<T>& Vec)
         : n(g.size()),
@@ -77,9 +77,30 @@ struct HeavyLightDecomposition {
                 }
             }
         }
-        seg = std::move(SegmentTree<T, op, e>(vec));
+        N = (1 << (std::__lg(std::max(1, n)) + 1)) << 1;
+        std::vector<int> sum = siz;
+        for (uint32_t i = 1; i < sum.size(); ++i) {
+            sum[i] += sum[i - 1];
+        }
+        {
+            seg.resize(N * 2);
+            for (uint32_t i = 0; i < vec.size(); ++i) {
+                seg[i + N] = vec[i];
+            }
+            for (int i = N - 1; i; --i) {
+                seg[i] = op(seg[i << 1], seg[(i << 1) | 1]);
+            }
+        }
         reverse(vec.begin(), vec.end());
-        rev = std::move(SegmentTree<T, op, e>(vec));
+        {
+            rev.resize(N * 2);
+            for (uint32_t i = 0; i < vec.size(); ++i) {
+                rev[i + N] = vec[i];
+            }
+            for (int i = N - 1; i; --i) {
+                rev[i] = op(rev[i << 1], rev[(i << 1) | 1]);
+            }
+        }
     }
 
     T operator[](int p) const {
@@ -87,30 +108,57 @@ struct HeavyLightDecomposition {
     }
 
     void set(int p, T x) {
-        seg.set(ran[p].first, x);
-        rev.set(n - ran[p].first - 1, x);
+        int P = p;
+        p = ran[p].first + N;
+        seg[p] = x;
+        for (p >>= 1; p; p >>= 1) {
+            seg[p] = op(seg[p << 1], seg[(p << 1) | 1]);
+        }
+        p = n - ran[P].first - 1 + N;
+        rev[p] = x;
+        for (p >>= 1; p; p >>= 1) {
+            rev[p] = op(rev[p << 1], rev[(p << 1) | 1]);
+        }
     }
 
     void add(int p, T x) {
-        seg.add(ran[p].first, x);
-        rev.add(n - ran[p].first - 1, x);
+        int P = p;
+        p = ran[p].first + N;
+        seg[p] += x;
+        for (p >>= 1; p; p >>= 1) {
+            seg[p] = op(seg[p << 1], seg[(p << 1) | 1]);
+        }
+        p = n - ran[P].first - 1 + N;
+        rev[p] += x;
+        for (p >>= 1; p; p >>= 1) {
+            rev[p] = op(rev[p << 1], rev[(p << 1) | 1]);
+        }
+    }
+
+    T get(const std::vector<T>& v, int l, int r) {
+        T L{e()}, R{e()};
+        for (l += N, r += N; l < r; l >>= 1, r >>= 1) {
+            if (l & 1) L = op(L, v[l++]);
+            if (r & 1) R = op(v[--r], R);
+        }
+        return op(L, R);
     }
 
     T operator()(int u, int v) {
         T L{e()}, R{e()};
         while (root[u] != root[v]) {
             if (dep[root[v]] < dep[root[u]]) {
-                L = op(L, rev(n - ran[u].first - 1, n - ran[root[u]].first));
+                L = op(L, get(rev, n - ran[u].first - 1, n - ran[root[u]].first));
                 u = per[root[u]];
             } else {
-                R = op(seg(ran[root[v]].first, ran[v].first + 1), R);
+                R = op(get(seg, ran[root[v]].first, ran[v].first + 1), R);
                 v = per[root[v]];
             }
         }
         if (ran[v].first < ran[u].first) {
-            L = op(L, rev(n - ran[u].first - 1, n - ran[v].first));
+            L = op(L, get(rev, n - ran[u].first - 1, n - ran[v].first));
         } else {
-            R = op(seg(ran[u].first, ran[v].first + 1), R);
+            R = op(get(seg, ran[u].first, ran[v].first + 1), R);
         }
         return op(L, R);
     }
