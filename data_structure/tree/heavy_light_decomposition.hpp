@@ -6,20 +6,20 @@
 template <typename T, auto op, auto e>
 struct HeavyLightDecomposition {
     int n;
-    std::vector<int> euler, dep, per, root, siz;
+    std::vector<int> euler, dep, par, root, siz;
     std::vector<std::pair<int, int>> ran;
     SegmentTree<T, op, e> seg, rev;
     explicit HeavyLightDecomposition(std::vector<std::vector<int>> g) : HeavyLightDecomposition(g, std::vector<T>(g.size(), e())) {}
     explicit HeavyLightDecomposition(std::vector<std::vector<int>> g, const std::vector<T>& Vec)
         : n(g.size()),
           dep(n, -1),
-          per(n, -1),
+          par(n, -1),
           root(n, -1),
           siz(n, 1) {
         ran.resize(n, {-1, -1});
         euler.reserve(n);
         {
-            per[0] = 0;
+            par[0] = 0;
             dep[0] = 0;
             std::stack<std::pair<int, bool>> st;
             st.emplace(0, true);
@@ -28,15 +28,15 @@ struct HeavyLightDecomposition {
                 st.pop();
                 if (flg) {
                     for (int v : g[u]) {
-                        if (v != per[u]) {
-                            per[v] = u;
+                        if (v != par[u]) {
+                            par[v] = u;
                             dep[v] = dep[u] + 1;
                             st.push({v, false});
                             st.push({v, true});
                         }
                     }
                 } else {
-                    siz[per[u]] += siz[u];
+                    siz[par[u]] += siz[u];
                 }
             }
         }
@@ -55,14 +55,14 @@ struct HeavyLightDecomposition {
                     root[u] = r;
                     int V = -1, S = -1;
                     for (int v : g[u]) {
-                        if (v == per[u]) continue;
+                        if (v == par[u]) continue;
                         if (S < siz[v]) {
                             S = siz[v];
                             V = v;
                         }
                     }
                     for (int v : g[u]) {
-                        if (v == per[u]) continue;
+                        if (v == par[u]) continue;
                         if (v != V) {
                             st.emplace(v, v, false);
                             st.emplace(v, v, true);
@@ -101,10 +101,10 @@ struct HeavyLightDecomposition {
         while (root[u] != root[v]) {
             if (dep[root[v]] < dep[root[u]]) {
                 L = op(L, rev(n - ran[u].first - 1, n - ran[root[u]].first));
-                u = per[root[u]];
+                u = par[root[u]];
             } else {
                 R = op(seg(ran[root[v]].first, ran[v].first + 1), R);
-                v = per[root[v]];
+                v = par[root[v]];
             }
         }
         if (ran[v].first < ran[u].first) {
@@ -120,10 +120,10 @@ struct HeavyLightDecomposition {
         while (root[u] != root[v]) {
             if (dep[root[v]] < dep[root[u]]) {
                 res.emplace_back(std::make_pair(ran[root[u]].first, ran[u].first));
-                u = per[root[u]];
+                u = par[root[u]];
             } else {
                 res.emplace_back(std::make_pair(ran[root[v]].first, ran[v].first));
-                v = per[root[v]];
+                v = par[root[v]];
             }
         }
         res.emplace_back(std::make_pair(
@@ -139,9 +139,9 @@ struct HeavyLightDecomposition {
     int lca(int u, int v) {
         while (root[u] != root[v]) {
             if (dep[root[v]] < dep[root[u]]) {
-                u = per[root[u]];
+                u = par[root[u]];
             } else {
-                v = per[root[v]];
+                v = par[root[v]];
             }
         }
         return euler[std::min(ran[u].first, ran[v].first)];
