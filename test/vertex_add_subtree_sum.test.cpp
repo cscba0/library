@@ -14,9 +14,7 @@
 #include <templates/macro/segtree/RSQ.hpp>                    // for RSQ
 #include <templates/rep.hpp>                                  // for rep
 #include <templates/template.hpp>
-#include <vector>  // for vector
-
-using namespace std;
+#include <vector>                                             // for vector
 
 int main() {
     int n, q;

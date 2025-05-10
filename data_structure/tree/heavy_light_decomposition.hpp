@@ -204,7 +204,7 @@ struct HeavyLightDecomposition {
     }
 
     T part(int u) {
-        return seg(ran[u].first, ran[u].second + 1);
+        return get(seg, ran[u].first, ran[u].second + 1);
     }
 
     int lca(int u, int v) {
