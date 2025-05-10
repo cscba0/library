@@ -25,7 +25,7 @@ struct SplayTree {
                 return new node{vec[l], l};
             }
             int mid = (l + r) >> 1;
-            nptr new_ptr = new node{vec[mid]};
+            nptr new_ptr = new node{vec[mid], l};
             new_ptr->left = dfs(l, mid, dfs);
             if (new_ptr->left) {
                 new_ptr->left->parent = new_ptr;
