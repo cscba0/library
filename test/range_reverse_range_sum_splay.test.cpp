@@ -9,10 +9,9 @@
 #include <templates/macro/abbrev/endl.hpp>  // for endl
 #include <templates/macro/abbrev/ll.hpp>    // for ll
 #include <templates/macro/segtree/RSQ.hpp>  // for RSQ
-#include <templates/qcfium.hpp>
-#include <templates/rep.hpp>  // for rep
-#include <vector>             // for vector
-using namespace std;
+#include <templates/rep.hpp>                // for rep
+#include <templates/template.hpp>
+#include <vector>  // for vector
 
 int main() {
     int n, q;
@@ -21,11 +20,8 @@ int main() {
     cin >> a;
 
     using splay = SplayTree<RSQ(ll, 0)>;
-    splay tree;
     splay::nptr root{nullptr};
-    rep(i, n) {
-        tree.insert(root, i, a[i]);
-    }
+    splay tree(a, root);
     rep(_, q) {
         ll T, l, r;
         cin >> T >> l >> r;
