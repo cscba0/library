@@ -1,5 +1,4 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/vertex_add_subtree_sum"
-#define IGNORE
 
 #include <algorithm>                                          // for reverse
 #include <data_structure/tree/heavy_light_decomposition.hpp>  // for HeavyLi...
