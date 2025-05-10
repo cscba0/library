@@ -1,4 +1,5 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/vertex_add_subtree_sum"
+#define IGNORE
 
 #include <algorithm>                                          // for reverse
 #include <data_structure/tree/heavy_light_decomposition.hpp>  // for HeavyLi...
@@ -14,7 +15,7 @@
 #include <templates/macro/segtree/RSQ.hpp>                    // for RSQ
 #include <templates/rep.hpp>                                  // for rep
 #include <templates/template.hpp>
-#include <vector>                                             // for vector
+#include <vector>  // for vector
 
 int main() {
     int n, q;
