@@ -1,14 +1,22 @@
 #pragma once
 #include <cstdint>
+#include <queue>
 #include <stack>
 #include <vector>
 
 template <typename T, auto op, auto e>
 struct HeavyLightDecomposition {
     int n, N;
-    std::vector<int> euler, dep, per, root, siz;
+    std::vector<int> euler, dep, per, root, siz, pos;
     std::vector<std::pair<int, int>> ran;
     std::vector<T> seg, rev;
+    struct node {
+        T v{e()}, r{e()};
+        int parent{-1}, left{-1}, right{-1}, depth{0};
+        node() {}
+        node(int _parent) : parent(_parent) {}
+    };
+    std::vector<node> nd;
     explicit HeavyLightDecomposition(std::vector<std::vector<int>> g) : HeavyLightDecomposition(g, std::vector<T>(g.size(), e())) {}
     explicit HeavyLightDecomposition(std::vector<std::vector<int>> g, const std::vector<T>& Vec)
         : n(g.size()),
@@ -79,6 +87,7 @@ struct HeavyLightDecomposition {
         }
         N = (1 << (std::__lg(std::max(1, n)) + 1)) << 1;
         std::vector<int> sum = siz;
+        pos.resize(N);
         for (uint32_t i = 1; i < sum.size(); ++i) {
             sum[i] += sum[i - 1];
         }
@@ -99,6 +108,20 @@ struct HeavyLightDecomposition {
             }
             for (int i = N - 1; i; --i) {
                 rev[i] = op(rev[i << 1], rev[(i << 1) | 1]);
+            }
+        }
+    }
+
+    void build(const std::vector<T>& vec, int n, int N) {
+        std::queue<std::tuple<node&, int, int>> q;
+        nd.resize(N * 2);
+        int cur = 0;
+        nd[0] = node{};
+        q.push(nd[0], 0, n);
+        while (!q.empty()) {
+            auto [c, l, r] = q.top();
+            q.pop();
+            if (l + 1 == r) {
             }
         }
     }
