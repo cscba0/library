@@ -38,7 +38,7 @@ struct Modint {
         return *this;
     }
     constexpr Modint &operator*=(const Modint rhs) noexcept {
-        x = x * rhs.x % Mod;
+        x = (x * rhs.x) % Mod;
         return *this;
     }
     constexpr Modint &operator/=(Modint rhs) noexcept {
