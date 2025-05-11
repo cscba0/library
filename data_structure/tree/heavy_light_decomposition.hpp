@@ -146,4 +146,9 @@ struct HeavyLightDecomposition {
         }
         return euler[std::min(ran[u].first, ran[v].first)];
     }
+
+    int dist(int u, int v) {
+        int lc = lca(u, v);
+        return dep[u] + dep[v] - dep[lc] * 2;
+    }
 };

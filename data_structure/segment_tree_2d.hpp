@@ -15,7 +15,7 @@ struct SegmentTree2D {
         }
         std::sort(X.begin(), X.end());
         X.erase(std::unique(X.begin(), X.end()), X.end());
-        n = InitialN(X.size());
+        n = (1 << (std::__lg(std::max(1, static_cast<int>(X.size()))) + 1)) << 1;
         pos.assign(n * 2, {});
         for (auto [_x, _y] : p) {
             _x = std::distance(X.begin(), std::lower_bound(X.begin(), X.end(), _x));
@@ -32,14 +32,6 @@ struct SegmentTree2D {
         for (int i = 1; i < n * 2; ++i) {
             seg.emplace_back(SegmentTree<T, op, e>(pos[i].size()));
         }
-    }
-
-    int InitialN(size_t siz) {
-        int n = 1;
-        while (n < siz) {
-            n <<= 1;
-        }
-        return n;
     }
 
     void set(Point<S> p, T v) {
