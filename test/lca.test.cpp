@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/lca"
 
-#include <data_structure/strong_link_cut_tree.hpp>  // for StrongLinkCutTree
+#include <data_structure/link_cut_tree.hpp>  // for StrongLinkCutTree
 #include <fastio/base.hpp>                          // for FASTIO, cin, cout
 #include <fastio/char/write.hpp>                    // for operator<<
 #include <fastio/signed/read.hpp>                   // for operator>>
@@ -22,7 +22,7 @@ int main() {
         cin >> u;
         g[u].eb(i);
     }
-    StrongLinkCutTree<RSQ(int, 0)> lct(g);
+    LinkCutTree<RSQ(int, 0)> lct(g);
     rep(_, q) {
         int u, v;
         cin >> u >> v;
