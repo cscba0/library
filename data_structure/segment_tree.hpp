@@ -8,7 +8,7 @@ struct SegmentTree {
     std::vector<T> v;
     explicit SegmentTree() : SegmentTree(0) {}
     explicit SegmentTree(int n) : SegmentTree(std::vector<T>(n, e())) {}
-    explicit SegmentTree(const std::vector<T>& _v) : n(InitialN(_v.size())), v(n * 2, e()) {
+    explicit SegmentTree(const std::vector<T>& _v) : n(1 << (std::__lg(std::max(1, static_cast<int>(_v.size()))) + 1)), v(n * 2, e()) {
         for (uint32_t i = 0; i < _v.size(); ++i) {
             v[i + n] = _v[i];
         }
