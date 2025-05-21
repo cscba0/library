@@ -4,6 +4,9 @@
 
 template <typename T, auto op, auto e>
 struct SegmentTree {
+    using value_type = T;
+    static constexpr auto operation = op;
+    static constexpr auto identity = e;
     int n;
     std::vector<T> v;
     explicit SegmentTree() : SegmentTree(0) {}

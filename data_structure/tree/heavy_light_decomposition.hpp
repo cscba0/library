@@ -1,14 +1,17 @@
 #pragma once
-#include <data_structure/segment_tree.hpp>
+#include <algorithm>
 #include <stack>
 #include <vector>
 
-template <typename T, auto op, auto e>
+template <typename _SegmentTree>
 struct HeavyLightDecomposition {
+    using T = typename _SegmentTree::value_type;
+    static constexpr auto op = _SegmentTree::operation;
+    static constexpr auto e = _SegmentTree::identity;
     int n;
     std::vector<int> euler, dep, par, root, siz;
     std::vector<std::pair<int, int>> ran;
-    SegmentTree<T, op, e> seg, rev;
+    _SegmentTree seg, rev;
     explicit HeavyLightDecomposition(std::vector<std::vector<int>> g) : HeavyLightDecomposition(g, std::vector<T>(g.size(), e())) {}
     explicit HeavyLightDecomposition(std::vector<std::vector<int>> g, const std::vector<T>& Vec)
         : n(g.size()),
@@ -77,9 +80,9 @@ struct HeavyLightDecomposition {
                 }
             }
         }
-        seg = std::move(SegmentTree<T, op, e>(vec));
-        reverse(vec.begin(), vec.end());
-        rev = std::move(SegmentTree<T, op, e>(vec));
+        seg = std::move(_SegmentTree(vec));
+        std::reverse(vec.begin(), vec.end());
+        rev = std::move(_SegmentTree(vec));
     }
 
     T operator[](int p) const {

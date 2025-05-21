@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/vertex_add_subtree_sum"
 
-#include <algorithm>                                          // for reverse
+#include <algorithm>  // for reverse
+#include <data_structure/segment_tree.hpp>
 #include <data_structure/tree/heavy_light_decomposition.hpp>  // for HeavyLi...
 #include <fastio/base.hpp>                                    // for FASTIO
 #include <fastio/char/write.hpp>                              // for operator<<
@@ -26,7 +27,7 @@ int main() {
     rep(i, n - 1) {
         g[p[i]].eb(i + 1);
     }
-    HeavyLightDecomposition<RSQ(ll, 0)> hld(g, a);
+    HeavyLightDecomposition<SegmentTree<RSQ(ll, 0)>> hld(g, a);
     rep(_, q) {
         int T, u;
         cin >> T >> u;
