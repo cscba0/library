@@ -20,14 +20,6 @@ struct SegmentTree {
         }
     }
 
-    int InitialN(size_t siz) {
-        int n = 1;
-        while (n < siz) {
-            n <<= 1;
-        }
-        return n;
-    }
-
     T operator[](int p) const {
         return v[p + n];
     }
