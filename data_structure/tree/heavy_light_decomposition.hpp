@@ -85,7 +85,7 @@ struct HeavyLightDecomposition {
         rev = std::move(_SegmentTree(vec));
     }
 
-    T operator[](int p) const {
+    T operator[](int p) {
         return seg[ran[p].first];
     }
 
