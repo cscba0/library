@@ -3,9 +3,10 @@
 
 template <typename S, auto op, auto e, typename F, auto mapping, auto composition, auto id>
 struct LazySegmentTree {
-    using value_type = S;
-    static constexpr auto operation = op;
-    static constexpr auto identity = e;
+    using _T = S;
+    using _F = F;
+    static constexpr auto _op = op;
+    static constexpr auto _e = e;
     LazySegmentTree() : LazySegmentTree(0) {}
     explicit LazySegmentTree(int n) : LazySegmentTree(std::vector<S>(n, e())) {}
     explicit LazySegmentTree(const std::vector<S>& v) : n(static_cast<int>(v.size())) {

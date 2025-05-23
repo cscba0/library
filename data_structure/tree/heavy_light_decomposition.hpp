@@ -1,13 +1,15 @@
 #pragma once
 #include <algorithm>
 #include <stack>
+#include <tuple>
 #include <vector>
 
 template <typename _SegmentTree>
 struct HeavyLightDecomposition {
-    using T = typename _SegmentTree::value_type;
-    static constexpr auto op = _SegmentTree::operation;
-    static constexpr auto e = _SegmentTree::identity;
+    using T = typename _SegmentTree::_T;
+    using F = typename _SegmentTree::_F;
+    static constexpr auto op = _SegmentTree::_op;
+    static constexpr auto e = _SegmentTree::_e;
     int n;
     std::vector<int> euler, dep, par, root, siz;
     std::vector<std::pair<int, int>> ran;
@@ -99,6 +101,32 @@ struct HeavyLightDecomposition {
         rev.add(n - ran[p].first - 1, x);
     }
 
+    void apply(int u, int v, F f) {
+        while (root[u] != root[v]) {
+            if (dep[root[v]] < dep[root[u]]) {
+                seg.apply(ran[root[u]].first, ran[u].first + 1, f);
+                rev.apply(n - ran[u].first - 1, n - ran[root[u]].first, f);
+                u = par[root[u]];
+            } else {
+                seg.apply(ran[root[v]].first, ran[v].first + 1, f);
+                rev.apply(n - ran[v].first - 1, n - ran[root[v]].first, f);
+                v = par[root[v]];
+            }
+        }
+        if (ran[v].first < ran[u].first) {
+            seg.apply(ran[v].first, ran[u].first + 1, f);
+            rev.apply(n - ran[u].first - 1, n - ran[v].first, f);
+        } else {
+            seg.apply(ran[u].first, ran[v].first + 1, f);
+            rev.apply(n - ran[v].first - 1, n - ran[u].first, f);
+        }
+    }
+
+    void apply(int u, F f) {
+        seg.apply(ran[u].first, ran[u].second + 1, f);
+        rev.apply(n - ran[u].second - 1, n - ran[u].first, f);
+    }
+
     T operator()(int u, int v) {
         T L{e()}, R{e()};
         while (root[u] != root[v]) {
@@ -135,7 +163,7 @@ struct HeavyLightDecomposition {
         return res;
     }
 
-    T part(int u) {
+    T subtree(int u) {
         return seg(ran[u].first, ran[u].second + 1);
     }
 

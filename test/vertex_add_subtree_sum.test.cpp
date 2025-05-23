@@ -36,7 +36,7 @@ int main() {
             cin >> x;
             hld.add(u, x);
         } else {
-            cout << hld.part(u) << endl;
+            cout << hld.subtree(u) << endl;
         }
     }
 }
