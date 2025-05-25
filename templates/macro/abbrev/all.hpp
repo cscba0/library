@@ -3,7 +3,7 @@
 #include <templates/macro/abbrev/endl.hpp>
 #include <templates/macro/abbrev/ext.hpp>
 #include <templates/macro/abbrev/greater.hpp>
-#include <templates/macro/abbrev/ldouble.hpp>
+#include <templates/macro/abbrev/ldb.hpp>
 #include <templates/macro/abbrev/lint.hpp>
 #include <templates/macro/abbrev/ll.hpp>
 #include <templates/macro/abbrev/mp.hpp>
