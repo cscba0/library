@@ -1,4 +1,5 @@
 #pragma once
+#include <bit>
 #include <cstdint>
 #include <vector>
 
@@ -8,11 +9,11 @@ struct SegmentTree {
     using _F = T;
     static constexpr auto _op = op;
     static constexpr auto _e = e;
-    int n;
+    int n, _n;
     std::vector<T> v;
     explicit SegmentTree() : SegmentTree(0) {}
     explicit SegmentTree(int n) : SegmentTree(std::vector<T>(n, e())) {}
-    explicit SegmentTree(const std::vector<T>& _v) : n(1 << (std::__lg(std::max(1, static_cast<int>(_v.size()))) + 1)), v(n * 2, e()) {
+    explicit SegmentTree(const std::vector<T>& _v) : n(std::bit_ceil(_v.size()) << 1), _n(_v.size()), v(n * 2, e()) {
         for (uint32_t i = 0; i < _v.size(); ++i) {
             v[i + n] = _v[i];
         }
@@ -51,7 +52,7 @@ struct SegmentTree {
     }
 
     int max_right(int l, auto f) const {
-        if (l == n) return n;
+        if (l == _n) return _n;
         l += n;
         T sm = e();
         do {
@@ -69,7 +70,7 @@ struct SegmentTree {
             sm = op(sm, v[l]);
             ++l;
         } while ((l & -l) != l);
-        return n;
+        return _n;
     }
 
     int min_left(int r, auto f) const {
