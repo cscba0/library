@@ -4,7 +4,7 @@
 #include <cstring>
 #include <fastio/base.hpp>
 
-static constexpr auto FastIODigitTable = [] {
+static auto FastIODigitTable = [] {
     std::array<std::array<char, 4>, 10000> res;
     for (int i = 0; i < 10000; ++i) {
         res[i][0] = '0' + i / 1000;
