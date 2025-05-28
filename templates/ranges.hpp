@@ -1,8 +1,9 @@
 #pragma once
+#include <functional>
 #include <ranges>
 
 template <typename F>
-struct pipe_fn {
+struct pipable_fn {
     F f;
     template <typename R>
     decltype(auto) operator()(R&& r) const {
@@ -11,11 +12,14 @@ struct pipe_fn {
 };
 
 template <std::ranges::input_range R, typename F>
-decltype(auto) operator|(R&& r, const pipe_fn<F>& pf) {
+decltype(auto) operator|(R&& r, const pipable_fn<F>& pf) {
     return pf(std::forward<R>(r));
 }
 
-template <typename F>
-constexpr auto pipe(F&& f) {
-    return pipe_fn<std::decay_t<F>>{std::forward<F>(f)};
+template <typename F, typename... Args>
+constexpr auto pipe(F&& f, Args&&... args) {
+    return pipable_fn{
+        [f = std::forward<F>(f), ... args = std::forward<Args>(args)](auto&& range) -> decltype(auto) {
+            return std::invoke(f, std::forward<decltype(range)>(range), args...);
+        }};
 }
