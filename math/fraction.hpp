@@ -17,6 +17,9 @@ struct Fraction {
     constexpr Fraction operator/(const Fraction rhs) const noexcept {
         return Fraction(*this) /= rhs;
     }
+    constexpr Fraction operator>>(const int rhs) const noexcept {
+        return Fraction(*this) >>= rhs;
+    }
     constexpr Fraction &operator+=(const Fraction rhs) noexcept {
         const T l = std::lcm(y, rhs.y);
         x *= l / y;
@@ -48,6 +51,10 @@ struct Fraction {
         const T g = std::gcd(x, y);
         x /= g;
         y /= g;
+        return *this;
+    }
+    constexpr Fraction &operator>>=(int rhs) noexcept {
+        *this /= Fraction{1 << rhs};
         return *this;
     }
     bool operator==(const Fraction rhs) const noexcept {
