@@ -1,10 +1,20 @@
 #pragma once
 #include <templates/macro/inf.hpp>
 
-#define RUmQ ll,                                                      \
-             [](ll a, ll b) { return min(a, b); },                    \
-             []() { return INF; },                                    \
-             ll,                                                      \
-             [](ll lz, ll v) { return (lz == INF ? v : lz); },        \
-             [](ll cur, ll old) { return (cur == INF ? old : cur); }, \
-             []() { return INF; }
+#define RUmQ(T, E, S, I) T,                                       \
+                         [](T a, T b) -> T { return min(a, b); }, \
+                         []() { return E; },                      \
+                         S,                                       \
+                         [](S lz, T v) -> T {                     \
+                             if (lz == I) {                       \
+                                 return v;                        \
+                             }                                    \
+                             return lz;                           \
+                         },                                       \
+                         [](S cur, S old) -> S {                  \
+                             if (cur == I) {                      \
+                                 return old;                      \
+                             }                                    \
+                             return cur;                          \
+                         },                                       \
+                         []() { return I; }
