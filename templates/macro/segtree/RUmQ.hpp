@@ -1,5 +1,4 @@
 #pragma once
-#include <templates/macro/inf.hpp>
 
 #define RUmQ(T, E, S, I) T,                                       \
                          [](T a, T b) -> T { return min(a, b); }, \

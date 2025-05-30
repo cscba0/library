@@ -5,9 +5,9 @@
 #include <fastio/char/write.hpp>                    // for operator<<
 #include <fastio/signed/read.hpp>                   // for operator>>
 #include <fastio/signed/write.hpp>                  // for operator<<
+#include <math/inf.hpp>                             // for INF
 #include <templates/macro/abbrev/endl.hpp>          // for endl
 #include <templates/macro/abbrev/ll.hpp>            // for ll
-#include <templates/macro/inf.hpp>                  // for INF
 #include <templates/rep.hpp>                        // for rep
 #include <templates/template.hpp>
 #include <version>  // for std
@@ -17,7 +17,7 @@ using namespace std;
 int main() {
     int n, q;
     cin >> n >> q;
-    DynamicLiChaoTree<ll, -1000000001, 1000000001, []() { return INF; }> tree;
+    DynamicLiChaoTree<ll, -1000000001, 1000000001, []() -> ll { return INF{}; }> tree;
     rep(_, n) {
         ll a, b;
         cin >> a >> b;

@@ -1,9 +1,7 @@
 #pragma once
 #include <templates/macro/segtree/RAMQ.hpp>
-#include <templates/macro/segtree/RAMQINF.hpp>
 #include <templates/macro/segtree/RASQ.hpp>
 #include <templates/macro/segtree/RAmQ.hpp>
-#include <templates/macro/segtree/RAmQINF.hpp>
 #include <templates/macro/segtree/RMQ.hpp>
 #include <templates/macro/segtree/RSQ.hpp>
 #include <templates/macro/segtree/RUMQ.hpp>

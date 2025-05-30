@@ -9,11 +9,11 @@
 #include <fastio/signed/read.hpp>           // for operator>>
 #include <fastio/signed/write.hpp>          // for operator<<
 #include <fastio/unsigned/read.hpp>         // for operator>>
+#include <math/inf.hpp>
 #include <templates/macro/abbrev/eb.hpp>    // for eb
 #include <templates/macro/abbrev/endl.hpp>  // for endl
 #include <templates/macro/abbrev/ext.hpp>   // for ext
 #include <templates/macro/abbrev/ll.hpp>    // for ll
-#include <templates/macro/inf.hpp>          // for INF
 #include <templates/rep.hpp>                // for rep
 #include <templates/template.hpp>
 #include <vector>  // for vector
@@ -39,11 +39,11 @@ int main() {
             cin >> t[i].a >> t[i].b;
         } else {
             cin >> t[i].a;
-            t[i].b = INF;
+            t[i].b = INF{};
             x.eb(t[i].a);
         }
     }
-    LiChaoTree<ll, []() { return INF; }> tree(x);
+    LiChaoTree<ll, []() { return INF{}; }> tree(x);
     if (x.empty()) {
         ext;
     }
@@ -51,7 +51,7 @@ int main() {
         tree.add(a[i].a, a[i].b);
     }
     rep(i, q) {
-        if (t[i].b == INF) {
+        if (t[i].b == (ll)(INF{})) {
             cout << tree(t[i].a) << endl;
         } else {
             tree.add(t[i].a, t[i].b);

@@ -1,5 +1,4 @@
 #pragma once
-#include <templates/macro/inf.hpp>
 
 #define RUMQ ll,                                                      \
              [](ll a, ll b) { return max(a, b); },                    \

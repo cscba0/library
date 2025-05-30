@@ -1,5 +1,4 @@
 #pragma once
-#include <templates/macro/inf.hpp>
 
 #define RUSQ pair<ll, ll>,                                                                                            \
              [](pair<ll, ll> a, pair<ll, ll> b) -> pair<ll, ll> { return {a.first + b.first, a.second + b.second}; }, \
