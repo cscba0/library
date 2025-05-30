@@ -7,9 +7,9 @@ struct INF;
 template <typename T>
 constexpr T INF_CONST() {
     if constexpr (std::is_same_v<T, int>) {
-        return 1000000000;
+        return 2147483647;
     } else if constexpr (std::is_same_v<T, long long>) {
-        return 1000000000000000000LL;
+        return 9223372036854775807LL;
     } else {
         static_assert(sizeof(T) == 0, "Unsupported type");
     }
