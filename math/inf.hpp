@@ -1,14 +1,34 @@
 #pragma once
+#include <type_traits>
 
-template <typename T = int>
-struct INF {
+template <typename T = void>
+struct INF;
+
+template <typename T>
+constexpr T INF_CONST() {
+    if constexpr (std::is_same_v<T, int>) {
+        return 1000000000;
+    } else if constexpr (std::is_same_v<T, long long>) {
+        return 1000000000000000000LL;
+    } else {
+        static_assert(sizeof(T) == 0, "Unsupported type");
+    }
+}
+
+template <>
+struct INF<void> {
     operator int() const {
-        return 2147483647;
+        return INF_CONST<int>();
     }
-    operator long() const {
-        return 9223372036854775807L;
-    }
+
     operator long long() const {
-        return 9223372036854775807LL;
+        return INF_CONST<long long>();
+    }
+};
+
+template <typename T>
+struct INF {
+    constexpr operator T() const {
+        return INF<T>();
     }
 };
