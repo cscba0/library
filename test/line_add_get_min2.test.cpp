@@ -9,7 +9,7 @@
 #include <fastio/signed/read.hpp>           // for operator>>
 #include <fastio/signed/write.hpp>          // for operator<<
 #include <fastio/unsigned/read.hpp>         // for operator>>
-#include <math/inf.hpp>
+#include <math/inf.hpp>                     // for INF
 #include <templates/macro/abbrev/eb.hpp>    // for eb
 #include <templates/macro/abbrev/endl.hpp>  // for endl
 #include <templates/macro/abbrev/ext.hpp>   // for ext
@@ -17,8 +17,6 @@
 #include <templates/rep.hpp>                // for rep
 #include <templates/template.hpp>
 #include <vector>  // for vector
-
-using namespace std;
 
 int main() {
     int n, q;
@@ -43,7 +41,7 @@ int main() {
             x.eb(t[i].a);
         }
     }
-    LiChaoTree<ll, []() { return INF{}; }> tree(x);
+    LiChaoTree<ll, []() -> ll { return INF{}; }> tree(x);
     if (x.empty()) {
         ext;
     }

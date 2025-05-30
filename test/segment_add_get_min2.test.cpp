@@ -20,8 +20,6 @@
 #include <templates/template.hpp>
 #include <vector>  // for vector
 
-using namespace std;
-
 int main() {
     int n, q;
     cin >> n >> q;
@@ -45,7 +43,7 @@ int main() {
             x.eb(t[i].a);
         }
     }
-    LiChaoTree<ll, []() { return INF{}; }> tree(x);
+    LiChaoTree<ll, []() -> ll { return INF{}; }> tree(x);
     if (x.empty()) {
         ext;
     }

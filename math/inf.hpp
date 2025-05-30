@@ -1,5 +1,6 @@
 #pragma once
 
+template <typename T = int>
 struct INF {
     operator int() const {
         return 2147483647;
