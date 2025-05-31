@@ -17,7 +17,7 @@ using namespace std;
 int main() {
     int n, q;
     cin >> n >> q;
-    DynamicLiChaoTree<ll, -1000000001, 1000000001, []() -> ll { return INF{}; }> tree;
+    DynamicLiChaoTree<ll, -1000000001, 1000000001, []() -> ll { return Infinite{}; }> tree;
     rep(_, n) {
         ll a, b;
         cin >> a >> b;

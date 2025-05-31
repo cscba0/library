@@ -2,7 +2,7 @@
 #include <type_traits>
 
 template <typename T = void>
-struct INF;
+struct Infinite;
 
 template <typename T>
 constexpr T INF_CONST() {
@@ -16,7 +16,7 @@ constexpr T INF_CONST() {
 }
 
 template <>
-struct INF<void> {
+struct Infinite<void> {
     operator int() const {
         return INF_CONST<int>();
     }
@@ -27,8 +27,8 @@ struct INF<void> {
 };
 
 template <typename T>
-struct INF {
+struct Infinite {
     constexpr operator T() const {
-        return INF<T>();
+        return INF_CONST<T>();
     }
 };

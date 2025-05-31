@@ -18,7 +18,7 @@ using namespace std;
 int main() {
     int n, q;
     cin >> n >> q;
-    DynamicLiChaoTree<ll, -1000000001, 1000000001, []() { return INF; }> seg;
+    DynamicLiChaoTree<ll, -1000000001, 1000000001, []() { return Infinite; }> seg;
     rep(_, n) {
         ll l, r, a, b;
         cin >> l >> r >> a >> b;
@@ -35,7 +35,7 @@ int main() {
             ll p;
             cin >> p;
             auto ans = seg(p);
-            if (ans == INF) {
+            if (ans == Infinite) {
                 cout << "INFINITY" << endl;
             } else {
                 cout << ans << endl;

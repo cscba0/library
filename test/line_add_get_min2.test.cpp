@@ -37,11 +37,11 @@ int main() {
             cin >> t[i].a >> t[i].b;
         } else {
             cin >> t[i].a;
-            t[i].b = INF{};
+            t[i].b = Infinite{};
             x.eb(t[i].a);
         }
     }
-    LiChaoTree<ll, []() -> ll { return INF{}; }> tree(x);
+    LiChaoTree<ll, []() -> ll { return Infinite{}; }> tree(x);
     if (x.empty()) {
         ext;
     }
@@ -49,7 +49,7 @@ int main() {
         tree.add(a[i].a, a[i].b);
     }
     rep(i, q) {
-        if (t[i].b == (ll)(INF{})) {
+        if (t[i].b == (ll)(Infinite{})) {
             cout << tree(t[i].a) << endl;
         } else {
             tree.add(t[i].a, t[i].b);
