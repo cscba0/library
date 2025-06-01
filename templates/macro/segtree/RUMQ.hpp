@@ -1,9 +1,19 @@
 #pragma once
 
-#define RUMQ ll,                                                      \
-             [](ll a, ll b) { return max(a, b); },                    \
-             []() { return -INF; },                                   \
-             ll,                                                      \
-             [](ll lz, ll v) { return (lz == INF ? v : lz); },        \
-             [](ll cur, ll old) { return (cur == INF ? old : cur); }, \
-             []() { return INF; }
+#define RUMQ(T, E, S, I) T,                                       \
+                         [](T a, T b) -> T { return max(a, b); }, \
+                         []() { return E; },                      \
+                         S,                                       \
+                         [](S lz, T v) -> T {                     \
+                             if (lz == I) {                       \
+                                 return v;                        \
+                             }                                    \
+                             return lz;                           \
+                         },                                       \
+                         [](S cur, S old) -> S {                  \
+                             if (cur == I) {                      \
+                                 return old;                      \
+                             }                                    \
+                             return cur;                          \
+                         },                                       \
+                         []() { return I; }

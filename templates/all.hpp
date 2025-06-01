@@ -6,4 +6,5 @@
 #include <templates/pair.hpp>
 #include <templates/ranges.hpp>
 #include <templates/rep.hpp>
+#include <templates/unique.hpp>
 #include <templates/vector.hpp>
