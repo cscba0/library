@@ -29,10 +29,12 @@ struct Point {
         return *this;
     }
 
-    auto operator<=>(const Point& rhs) const noexcept {
-        if (x == rhs.x) {
-            return y <=> rhs.y;
-        }
-        return x <=> rhs.x;
+    bool operator==(const Point<T>& other) const {
+        return x == other.x && y == other.y;
+    }
+
+    auto operator<=>(const Point<T>& other) const {
+        if (auto cmp = x <=> other.x; cmp != 0) return cmp;
+        return y <=> other.y;
     }
 };
