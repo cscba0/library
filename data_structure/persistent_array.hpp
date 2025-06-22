@@ -24,7 +24,7 @@ struct PersistentArray {
         }
         std::vector<nptr> c;
         c.emplace_back(root[0]);
-        while (1 << (w + 4) < v.size()) {
+        while (1 << (w + 4) < static_cast<int>(v.size())) {
             w += 4;
             std::vector<nptr> nxt;
             for (auto &p : c) {
