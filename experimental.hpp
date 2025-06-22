@@ -5,6 +5,7 @@
 #include <data_structure/link_cut_tree.hpp>
 #include <data_structure/randomized_binary_search_tree.hpp>
 #include <data_structure/splay_tree.hpp>
+#include <data_structure/static_top_tree.hpp>
 #include <data_structure/strong_link_cut_tree.hpp>
 #include <data_structure/tree/heavy_light_decomposition.hpp>
 #include <math/dynamic_modint.hpp>

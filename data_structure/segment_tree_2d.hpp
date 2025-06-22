@@ -81,6 +81,14 @@ struct SegmentTree2D {
         return seg[x][p];
     }
 
+    T get(Point<S> p) {
+        return get(p.x, p.y);
+    }
+
+    T operator[](Point<S> p) {
+        return get(p);
+    }
+
     T operator()(S l, S r, S t, S b) {
         l = distance(X.begin(), lower_bound(X.begin(), X.end(), l));
         r = distance(X.begin(), lower_bound(X.begin(), X.end(), r));
