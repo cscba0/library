@@ -13,7 +13,7 @@ struct SegmentTree {
     std::vector<T> v;
     explicit SegmentTree() : SegmentTree(0) {}
     explicit SegmentTree(int n) : SegmentTree(std::vector<T>(n, e())) {}
-    explicit SegmentTree(const std::vector<T>& _v) : n(std::bit_ceil(_v.size()) << 1), _n(_v.size()), v(n * 2, e()) {
+    explicit SegmentTree(const std::vector<T>& _v) : n(std::bit_ceil(_v.size())), _n(_v.size()), v(n * 2, e()) {
         for (uint32_t i = 0; i < _v.size(); ++i) {
             v[i + n] = _v[i];
         }

@@ -15,7 +15,7 @@ struct SegmentTree2D {
         }
         std::sort(X.begin(), X.end());
         X.erase(std::unique(X.begin(), X.end()), X.end());
-        n = (1 << (std::__lg(std::max(1, static_cast<int>(X.size()))) + 1)) << 1;
+        n = std::bit_ceil(X.size());
         pos.assign(n * 2, {});
         for (auto [_x, _y] : p) {
             _x = std::distance(X.begin(), std::lower_bound(X.begin(), X.end(), _x));
