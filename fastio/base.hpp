@@ -16,9 +16,23 @@ struct FASTIO {
                         opos(output_buffer) {
         struct stat st;
         fstat(0, &st);
-        ipos = (char *)malloc(st.st_size + 64);
-        memset(ipos + st.st_size, ' ', 64);
-        ipos = (char *)mmap(ipos, st.st_size, PROT_READ, MAP_PRIVATE, 0, 0);
+        if (S_ISREG(st.st_mode)) {
+            ipos = (char *)malloc(st.st_size + 64);
+            memset(ipos + st.st_size, ' ', 64);
+            ipos = (char *)mmap(ipos, st.st_size, PROT_READ, MAP_PRIVATE, 0, 0);
+        } else {
+            constexpr size_t BUF = 1 << 20;
+            size_t total = 0;
+            char *buf = (char *)malloc(BUF);
+            for (;;) {
+                ssize_t n = ::read(0, buf + total, BUF);
+                if (n <= 0) break;
+                total += n;
+                buf = (char *)realloc(buf, total + BUF);
+            }
+            memset(buf + total, ' ', 64);
+            ipos = buf;
+        }
     }
     ~FASTIO() noexcept { this->flush(); }
 

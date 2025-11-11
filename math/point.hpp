@@ -7,10 +7,10 @@ struct Point {
     inline constexpr Point() noexcept : x(0), y(0) {}
     inline constexpr Point(T _x, T _y) noexcept : x(_x), y(_y) {}
 
-    long double distance(const Point<T>& rhs) noexcept {
+    long double distance(const Point<T>& rhs) const {
         return sqrtl(distancePow(*this, rhs));
     }
-    T distancePow(const Point<T>& rhs) noexcept {
+    T distancePow(const Point<T>& rhs) const {
         return (x - rhs.x) * (x - rhs.x) + (y - rhs.y) * (y - rhs.y);
     }
 
