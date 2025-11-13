@@ -9,50 +9,72 @@
 
 struct FASTIO {
     static constexpr int buffer_size = 1 << 20;
+    char input_buffer[buffer_size];
     char output_buffer[buffer_size];
-    char *ipos, *obegin, *oend, *opos;
-    explicit FASTIO() : obegin(output_buffer),
-                        oend(output_buffer + buffer_size),
-                        opos(output_buffer) {
+    char *ibegin, *iend, *ipos;
+    char *obegin, *oend, *opos;
+
+    explicit FASTIO()
+        : ibegin(input_buffer),
+          iend(input_buffer),
+          ipos(input_buffer),
+          obegin(output_buffer),
+          oend(output_buffer + buffer_size),
+          opos(output_buffer) {
+#ifndef LOCAL
         struct stat st;
         fstat(0, &st);
         if (S_ISREG(st.st_mode)) {
-            ipos = (char *)malloc(st.st_size + 64);
-            memset(ipos + st.st_size, ' ', 64);
-            ipos = (char *)mmap(ipos, st.st_size, PROT_READ, MAP_PRIVATE, 0, 0);
+            ipos = (char *)mmap(nullptr, st.st_size, PROT_READ, MAP_PRIVATE, 0, 0);
+            iend = ipos + st.st_size;
         } else {
-            constexpr size_t BUF = 1 << 20;
-            size_t total = 0;
-            char *buf = (char *)malloc(BUF);
-            for (;;) {
-                ssize_t n = ::read(0, buf + total, BUF);
-                if (n <= 0) break;
-                total += n;
-                buf = (char *)realloc(buf, total + BUF);
-            }
-            memset(buf + total, ' ', 64);
-            ipos = buf;
+            ssize_t n = ::read(0, input_buffer, buffer_size);
+            ipos = input_buffer;
+            iend = input_buffer + (n > 0 ? n : 0);
         }
+#else
+        ipos = input_buffer;
+        iend = input_buffer;
+#endif
     }
-    ~FASTIO() noexcept { this->flush(); }
 
-    inline void seek() noexcept {
-        while (*ipos <= ' ') [[unlikely]] {
-            ++ipos;
-        }
-    }
+    ~FASTIO() noexcept { flush(); }
 
     inline void flush() noexcept {
-        std::ignore = ::write(1, obegin, opos - obegin);
-        opos = obegin;
+        if (opos != obegin) {
+            std::ignore = ::write(1, obegin, opos - obegin);
+            opos = obegin;
+        }
     }
 
     inline void reserve(int x) noexcept {
-        if (oend - opos < x) [[unlikely]] {
+        if (oend - opos < x) [[unlikely]]
             flush();
-        }
     }
-} FIO;
 
+    inline void seek() noexcept {
+        while (ipos < iend && *ipos <= ' ') [[unlikely]]
+            ++ipos;
+#ifdef LOCAL
+        if (ipos == iend) refill();
+#endif
+    }
+
+#ifdef LOCAL
+    inline void refill() noexcept {
+        ssize_t n = ::read(0, input_buffer, buffer_size);
+        if (n <= 0) {
+            input_buffer[0] = ' ';
+            iend = input_buffer + 1;
+        } else {
+            ibegin = input_buffer;
+            iend = input_buffer + n;
+        }
+        ipos = ibegin;
+    }
+#endif
+};
+
+FASTIO FIO;
 #define cin FIO
 #define cout FIO

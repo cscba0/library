@@ -2,6 +2,7 @@
 #include <data_structure/dynamic_li_chao_tree.hpp>
 #include <data_structure/dynamic_segment_tree.hpp>
 #include <data_structure/hash_map.hpp>
+#include <data_structure/indexed_splay_tree.hpp>
 #include <data_structure/lazy_reversible_randomized_binary_search_tree.hpp>
 #include <data_structure/lazy_reversible_splay_tree.hpp>
 #include <data_structure/lazy_segment_tree.hpp>
@@ -13,6 +14,8 @@
 #include <data_structure/segment_tree.hpp>
 #include <data_structure/segment_tree_2d.hpp>
 #include <data_structure/splay_tree.hpp>
+#include <data_structure/static_top_tree.hpp>
+#include <data_structure/strong_link_cut_tree.hpp>
 #include <data_structure/tree/all.hpp>
 #include <data_structure/tree/heavy_light_decomposition.hpp>
 #include <data_structure/unionfind.hpp>
